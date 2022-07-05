@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const Movie = require('./models/movie');
+const concat_map = require('concat-map');
 
 mongoose.connect('mongodb://localhost:27017/movie-inventory');
 
@@ -33,6 +34,12 @@ app.get('/makemovie', async (req,res) => {
 
 app.get('/', (req, res) => {
     res.send('Testing');
+})
+
+app.get('/makeMovie', async (req, res) => {
+    const movie = new Movie({title: 'Home Alone'});
+    await movie.save();
+    res.send(movie);
 })
 
 
