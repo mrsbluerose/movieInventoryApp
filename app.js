@@ -41,6 +41,10 @@ app.get('/movies', async (req, res) => {
     res.render('movies/index', { movies });
 })
 
+app.get('/movies/:id', async (req, res) => {
+    const movie = await Movie.findById(req.params.id);
+    res.render('movies/show', { movie });
+})
 
 app.listen(3000, () => {
     console.log('Serving on port 3000');

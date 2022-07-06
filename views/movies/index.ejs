@@ -9,7 +9,7 @@
     <h1>All Movies</h1>
     <ul>
         <% for (let movie of movies) {%>
-        <li><%= movie.title %></li>
+        <li><a href="/movies/<%= movie._id %>"><%= movie.title%></a></li>
         <% }%>
     </ul>
 </body>
