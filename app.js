@@ -36,10 +36,9 @@ app.get('/', (req, res) => {
     res.send('Testing');
 })
 
-app.get('/makeMovie', async (req, res) => {
-    const movie = new Movie({title: 'Home Alone'});
-    await movie.save();
-    res.send(movie);
+app.get('/movies', async (req, res) => {
+    const movies = await Movie.find({});
+    res.render('movies/index', { movies });
 })
 
 
