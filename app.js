@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const Movie = require('./models/movie');
-const concat_map = require('concat-map');
 
 mongoose.connect('mongodb://localhost:27017/movie-inventory');
 
@@ -17,6 +16,8 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.urlencoded({ extended: true}));
+
 app.get('/', (req,res) => {
     res.render('home');
 })
@@ -30,21 +31,27 @@ app.get('/makemovie', async (req,res) => {
 })
 */
 
-//test that the site is working
-
-app.get('/', (req, res) => {
-    res.send('Testing');
-})
-
 app.get('/movies', async (req, res) => {
     const movies = await Movie.find({});
     res.render('movies/index', { movies });
+})
+
+app.get('/movies/new', (req, res) => {
+    res.render('movies/new');
+})
+
+app.post('/movies', async (req, res) => {
+    const movie = new Movie(req.body.movie);
+    await movie.save();
+    res.redirect(`/movies/${movie._id}`)
 })
 
 app.get('/movies/:id', async (req, res) => {
     const movie = await Movie.findById(req.params.id);
     res.render('movies/show', { movie });
 })
+
+
 
 app.listen(3000, () => {
     console.log('Serving on port 3000');
