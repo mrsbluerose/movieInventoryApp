@@ -19,10 +19,10 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-app.get('/', (req,res) => {
+app.get('/', (req, res) => {
     res.render('home');
 })
 
@@ -44,10 +44,14 @@ app.get('/movies/new', (req, res) => {
     res.render('movies/new');
 })
 
-app.post('/movies', async (req, res) => {
-    const movie = new Movie(req.body.movie);
-    await movie.save();
-    res.redirect(`/movies/${movie._id}`)
+app.post('/movies', async (req, res, next) => {
+    try {
+        const movie = new Movie(req.body.movie);
+        await movie.save();
+        res.redirect(`/movies/${movie._id}`)
+    } catch (e) {
+        next(e);
+    }
 })
 
 app.get('/movies/:id', async (req, res) => {
@@ -70,6 +74,10 @@ app.delete('/movies/:id', async (req, res) => {
     const { id } = req.params;
     await Movie.findByIdAndDelete(id);
     res.redirect('/movies');
+})
+
+app.use((err, req, res, next) => {
+    res.send("error error");
 })
 
 app.listen(3000, () => {

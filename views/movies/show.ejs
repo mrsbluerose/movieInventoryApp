@@ -1,12 +1,27 @@
 <% layout('layouts/boilerplate') %>
-    <h1><%=movie.title%></h1>
-    <h2><%=movie.description%></h2>
-    <p>
-        <form action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
-    </p>
-    <footer>
-        <a href="/movies/<%= movie._id %>/edit">Edit</a>
-        <a href="/movies">All Movies</a>
-    </footer>
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card mb-3" style="width: 18rem;">
+            
+            <div class="card-body">
+              <h5 class="card-title"><%=movie.title%></h5>
+              <p class="card-text"><%=movie.description%></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><%=movie.personalRating%></li>
+              <li class="list-group-item">A second item</li>
+              <li class="list-group-item">A third item</li>
+            </ul>
+            <div class="card-body">
+              <a href="/movies/<%= movie._id %>/edit" class="card-link btn btn-info">Edit</a>
+              <form class="d-inline" action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="/movies">All Movies</a>
+              </div>
+          </div>
+    </div>
+</div>
