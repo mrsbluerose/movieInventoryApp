@@ -5,6 +5,8 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Movie = require('./models/movie');
 const catchAsync = require('./utils/catchAsync');
+const expressError = require('./utils/ExpressError.js');
+const ExpressError = require('./utils/ExpressError.js');
 
 mongoose.connect('mongodb://localhost:27017/movie-inventory');
 
@@ -46,9 +48,10 @@ app.get('/movies/new', (req, res) => {
 })
 
 app.post('/movies', catchAsync(async (req, res, next) => {
-        const movie = new Movie(req.body.movie);
-        await movie.save();
-        res.redirect(`/movies/${movie._id}`)
+    if(!req.body.movie) throw new ExpressError('Invalid Movie data', 400);
+    const movie = new Movie(req.body.movie);
+    await movie.save();
+    res.redirect(`/movies/${movie._id}`)
 }))
 
 app.get('/movies/:id', catchAsync(async (req, res) => {
@@ -73,7 +76,13 @@ app.delete('/movies/:id', catchAsync(async (req, res) => {
     res.redirect('/movies');
 }))
 
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page not found', 404))
+})
+
 app.use((err, req, res, next) => {
+    const { statusCode = 500, message = 'Something went wrong'}  = err;
+    res.status(statusCode).send(message);
     res.send("error error");
 })
 
