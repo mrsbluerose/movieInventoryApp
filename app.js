@@ -7,6 +7,7 @@ const Movie = require('./models/movie');
 const catchAsync = require('./utils/catchAsync');
 const expressError = require('./utils/ExpressError.js');
 const ExpressError = require('./utils/ExpressError.js');
+const { movieSchema } = require('./schemas.js');
 
 mongoose.connect('mongodb://localhost:27017/movie-inventory');
 
@@ -38,6 +39,16 @@ app.get('/makemovie', async (req,res) => {
 })
 */
 
+const validateMovie = (req, res, next) => {
+    const { error } = movieSchema.validate(req.body);
+    if(error){
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg,400)
+    } else {
+        next();
+    }
+}
+
 app.get('/movies', catchAsync(async (req, res) => {
     const movies = await Movie.find({});
     res.render('movies/index', { movies });
@@ -47,8 +58,8 @@ app.get('/movies/new', (req, res) => {
     res.render('movies/new');
 })
 
-app.post('/movies', catchAsync(async (req, res, next) => {
-    if(!req.body.movie) throw new ExpressError('Invalid Movie data', 400);
+app.post('/movies', validateMovie, catchAsync(async (req, res, next) => {
+    //if(!req.body.movie) throw new ExpressError('Invalid Movie data', 400);
     const movie = new Movie(req.body.movie);
     await movie.save();
     res.redirect(`/movies/${movie._id}`)
