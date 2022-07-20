@@ -5,7 +5,6 @@ const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const Movie = require('./models/movie');
 const catchAsync = require('./utils/catchAsync');
-const expressError = require('./utils/ExpressError.js');
 const ExpressError = require('./utils/ExpressError.js');
 const { movieSchema } = require('./schemas.js');
 
@@ -75,7 +74,7 @@ app.get('/movies/:id/edit', catchAsync(async (req, res) => {
     res.render('movies/edit', { movie });
 }))
 
-app.put('/movies/:id', catchAsync(async (req, res) => {
+app.put('/movies/:id', validateMovie, catchAsync(async (req, res) => {
     const { id } = req.params;
     const movie = await Movie.findByIdAndUpdate(id, { ...req.body.movie });
     res.redirect(`/movies/${movie._id}`)
@@ -85,6 +84,10 @@ app.delete('/movies/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Movie.findByIdAndDelete(id);
     res.redirect('/movies');
+}))
+
+app.post('/movies/:id/personalReviews', catchAsync(async( req,res) => {
+    res.send("You did it!");
 }))
 
 app.all('*', (req, res, next) => {
