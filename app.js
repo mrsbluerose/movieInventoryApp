@@ -7,6 +7,8 @@ const Movie = require('./models/movie');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError.js');
 const { movieSchema } = require('./schemas.js');
+const { personalReviewSchema } = require('./schemas.js');
+const PersonalReview = require('./models/personalReview');
 
 mongoose.connect('mongodb://localhost:27017/movie-inventory');
 
@@ -48,6 +50,16 @@ const validateMovie = (req, res, next) => {
     }
 }
 
+const validatePersonalReview = (req, res, next) => {
+    const { error } = personalReviewSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
+
 app.get('/movies', catchAsync(async (req, res) => {
     const movies = await Movie.find({});
     res.render('movies/index', { movies });
@@ -65,7 +77,7 @@ app.post('/movies', validateMovie, catchAsync(async (req, res, next) => {
 }))
 
 app.get('/movies/:id', catchAsync(async (req, res) => {
-    const movie = await Movie.findById(req.params.id);
+    const movie = await Movie.findById(req.params.id).populate('personalReviews');
     res.render('movies/show', { movie });
 }))
 
@@ -86,8 +98,20 @@ app.delete('/movies/:id', catchAsync(async (req, res) => {
     res.redirect('/movies');
 }))
 
-app.post('/movies/:id/personalReviews', catchAsync(async( req,res) => {
-    res.send("You did it!");
+app.post('/movies/:id/personalReviews', validatePersonalReview, catchAsync(async (req,res) => {
+    const movie = await Movie.findById(req.params.id);
+    const personalReview = new PersonalReview(req.body.personalReview);
+    movie.personalReviews.push(personalReview);
+    await personalReview.save();
+    await movie.save();
+    res.redirect(`/movies/${movie._id}`);
+}))
+
+app.delete('/movies/:id/personalReviews/:personalReviewId', catchAsync(async (req, res) => {
+    const { id, personalReviewId } = req.params;
+    await Movie.findByIdAndUpdate(id, { $pull: { personalReviews: personalReviewId } });
+    await PersonalReview.findByIdAndDelete(personalReviewId);
+    res.redirect(`/movies/${id}`);
 }))
 
 app.all('*', (req, res, next) => {

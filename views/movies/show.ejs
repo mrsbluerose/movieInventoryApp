@@ -1,39 +1,55 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="row">
-    <div class="col-6 offset-3">
-        <div class="card mb-3" style="width: 18rem;">
-            
-            <div class="card-body">
-              <h5 class="card-title"><%=movie.title%></h5>
-              <p class="card-text"><%=movie.description%></p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><%=movie.personalRating%></li>
-              <li class="list-group-item">A second item</li>
-              <li class="list-group-item">A third item</li>
-            </ul>
-            <div class="card-body">
-              <a href="/movies/<%= movie._id %>/edit" class="card-link btn btn-info">Edit</a>
-              <form class="d-inline" action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
-                <button class="btn btn-danger">Delete</button>
-                </form>
-            </div>
-            <div class="card-footer text-muted">
-                <a href="/movies">All Movies</a>
-              </div>
-          </div>
-          <h2>Leave Your Personal Review</h2>
-          <form class="mb-3" action="/movies/<%=movie._id%>/personalReviews" method="POST">
-            <div class="mb-3">
-              <label class="form-label" for="personalRating">Personal Rating</label>
-              <input class="form-range" type="range" min="1" max="5" name="personalReview[rating]" id="rating">
-            </div>
-            <div class="mb-3">
-              <label class="form-label"for="body">Personal Review</label>
-                <textarea class="form-control" name="personalReview[body]" id="body" cols="30" rows="5"></textarea>
-            </div>
-            <button class="btn btn-success">Submit</button>
-          </form>
+  <div class="col-6">
+    <div class="card mb-3">
+
+      <div class="card-body">
+        <h5 class="card-title"><%=movie.title%></h5>
+        <p class="card-text"><%=movie.description%></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">a first item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+      </ul>
+      <div class="card-body">
+        <a href="/movies/<%= movie._id %>/edit" class="card-link btn btn-info">Edit</a>
+        <form class="d-inline" action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+      <div class="card-footer text-muted">
+        <a href="/movies">All Movies</a>
+      </div>
     </div>
+  </div>
+
+  <div class="col-6">
+    <h2>Leave Your Personal Review</h2>
+    <form class="mb-3 needs-validation" action="/movies/<%=movie._id%>/personalReviews" method="POST" novalidate>
+      <div class="mb-3">
+        <label class="form-label" for="rating">Personal Rating</label>
+        <input class="form-range" type="range" min="1" max="5" name="personalReview[rating]" id="rating">
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="body">Personal Review</label>
+        <textarea class="form-control" name="personalReview[body]" id="body" cols="30" rows="5" required></textarea>
+      </div>
+      <button class="btn btn-success">Submit</button>
+    </form>
+    <% if(movie.personalReviews.length > 0) { %>
+    <% for(let personalReview of movie.personalReviews) { %>
+    <div class="card mb-3 ">
+      <div class="card-body">
+        <h5 class="card-title">Rating: <%= personalReview.rating %></h5>
+        <p class="card-text">Review: <%= personalReview.body %></p>
+        <form action="/movies/<%=movie._id%>/personalReviews/<%=personalReview._id%>?_method=DELETE" method="POST">
+          <button class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+    <% } %>
+    <% } %>
+  </div>
 </div>

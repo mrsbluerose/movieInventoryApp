@@ -17,27 +17,27 @@ const seedDB = async () => {
         {
             title: `Home Alone`,
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            personalRating: 4
+            personalReviews: []
         },
         {
             title: `Face Off`,
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            personalRating: 4
+            personalReviews: []
         },
         {
             title: `Cold Comfort Farm`,
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            personalRating: 4
+            personalReviews: []
         },
         {
             title: `Top Gun`,
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            personalRating: 4
+            personalReviews: []
         },
         {
             title: `Galaxy Quest`,
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            personalRating: 4
+            personalReviews: []
         }
 
     ]

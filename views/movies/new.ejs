@@ -1,5 +1,5 @@
 <% layout('layouts/boilerplate') %>
-    <form action="/movies" method="POST" novalidate class="needs-validation">
+    <form class="needs-validation" action="/movies" method="POST" novalidate>
 
         <div>
             <label for="title">Title</label>
@@ -10,8 +10,8 @@
             <input type="text" id="description" name="movie[description]" required>
         </div>
         <div>
-            <label class="form-label" for="personalRating">Personal Rating</label>
-            <input type="text" id="personalRating" placeholder="0" default="0" name="movie[personalRating]">
+            <!--<label class="form-label" for="personalRating">Personal Rating</label>
+            <input type="text" id="personalRating" placeholder="0" default="0" name="movie[personalRating]">-->
         </div>
         <button>Add Movie</button>
     </form>

@@ -1,16 +1,27 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const PersonalReview = require('./personalReview');
 
 const MovieSchema = new Schema({
     title: String,
     description: String,
-    personalRating: Number,
-    reviews: [
+    //personalRating: Number,
+    personalReviews: [
         {
             type: Schema.Types.ObjectId,
             ref: 'PersonalReview'
         }
     ]
+});
+
+MovieSchema.post('findOneAndDelete', async function (doc) {
+    if(doc){
+        await PersonalReview.deleteOne({
+            _id: {
+                $in: doc.personalReviews
+            }
+        })
+    }
 })
 
 module.exports = mongoose.model('Movie', MovieSchema);
