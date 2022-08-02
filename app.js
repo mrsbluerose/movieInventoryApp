@@ -6,9 +6,10 @@ const methodOverride = require('method-override');
 const Movie = require('./models/movie');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError.js');
-const { movieSchema } = require('./schemas.js');
-const { personalReviewSchema } = require('./schemas.js');
+const { movieSchema, personalReviewSchema } = require('./schemas.js');
 const PersonalReview = require('./models/personalReview');
+
+const movies = require('./routes/movies');
 
 mongoose.connect('mongodb://localhost:27017/movie-inventory');
 
@@ -27,6 +28,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+app.use('/movies/', movies);
+
 app.get('/', (req, res) => {
     res.render('home');
 })
@@ -40,15 +43,7 @@ app.get('/makemovie', async (req,res) => {
 })
 */
 
-const validateMovie = (req, res, next) => {
-    const { error } = movieSchema.validate(req.body);
-    if(error){
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg,400)
-    } else {
-        next();
-    }
-}
+
 
 const validatePersonalReview = (req, res, next) => {
     const { error } = personalReviewSchema.validate(req.body);
@@ -60,43 +55,7 @@ const validatePersonalReview = (req, res, next) => {
     }
 }
 
-app.get('/movies', catchAsync(async (req, res) => {
-    const movies = await Movie.find({});
-    res.render('movies/index', { movies });
-}))
 
-app.get('/movies/new', (req, res) => {
-    res.render('movies/new');
-})
-
-app.post('/movies', validateMovie, catchAsync(async (req, res, next) => {
-    //if(!req.body.movie) throw new ExpressError('Invalid Movie data', 400);
-    const movie = new Movie(req.body.movie);
-    await movie.save();
-    res.redirect(`/movies/${movie._id}`)
-}))
-
-app.get('/movies/:id', catchAsync(async (req, res) => {
-    const movie = await Movie.findById(req.params.id).populate('personalReviews');
-    res.render('movies/show', { movie });
-}))
-
-app.get('/movies/:id/edit', catchAsync(async (req, res) => {
-    const movie = await Movie.findById(req.params.id);
-    res.render('movies/edit', { movie });
-}))
-
-app.put('/movies/:id', validateMovie, catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const movie = await Movie.findByIdAndUpdate(id, { ...req.body.movie });
-    res.redirect(`/movies/${movie._id}`)
-}))
-
-app.delete('/movies/:id', catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Movie.findByIdAndDelete(id);
-    res.redirect('/movies');
-}))
 
 app.post('/movies/:id/personalReviews', validatePersonalReview, catchAsync(async (req,res) => {
     const movie = await Movie.findById(req.params.id);
