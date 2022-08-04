@@ -29,9 +29,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-//app.use('/static', express.static(path.join(__dirname, 'public')));
-//app.use(express.static(path.join(__dirname, 'public')));
-app.use('/static', express.static('public'))
+//app.use('/static', express.static(path.join(__dirname, 'public'))); ////no errors, but validation doesn't do anything. trying to add a move without a title, and nothing happens
+//app.use(express.static(path.join(__dirname, 'public'))); ////validation works, but 404 says it can load script
+
 
 app.use('/movies', movies);
 app.use('/movies/:id/personalReviews', personalReviews);
