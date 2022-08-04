@@ -3,11 +3,12 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
-const Movie = require('./models/movie');
+const session = require('express-session');
+//const Movie = require('./models/movie');
 //const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError.js');
-const { movieSchema, personalReviewSchema } = require('./schemas.js');
-const PersonalReview = require('./models/personalReview');
+//const { movieSchema, personalReviewSchema } = require('./schemas.js');
+//const PersonalReview = require('./models/personalReview');
 
 const movies = require('./routes/movies');
 const personalReviews = require('./routes/personalReviews');
@@ -28,10 +29,28 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use('/static', express.static(path.join(__dirname, 'public')));
+//app.use('/static', express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static('public'))
 
 app.use('/movies', movies);
 app.use('/movies/:id/personalReviews', personalReviews);
+
+// const sessionConfig = {
+//     store,
+//     name: 'session', //changes default name to keep it more secure
+//     secret, //a 'secret' to sign cookies
+//     resave: false, //removes deprication warning
+//     saveUninitialized: true, //removes deprication warning
+//     cookie: {
+//         httpOnly: true, //security not to reveal cookies to third party
+//         //secure: true, //only over https in deployment
+//         expires: Date.now() + (1000 * 60 * 60 * 24 * 7), //expire in miliseconds * in minute * in hour * in day * in week = one week. Good to set. There is no default, and you don't want someone to stay logged in forever.
+//         maxAge: 1000 * 60 * 60 * 24 * 7
+//     }
+// };
+
+//app.use(session(sessionConfig));
 
 app.get('/', (req, res) => {
     res.render('home');
