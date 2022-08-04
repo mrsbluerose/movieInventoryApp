@@ -3,7 +3,7 @@ const router = express.Router();
 const Movie = require('../models/movie');
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError.js');
-const { movieSchema, personalReviewSchema } = require('../schemas.js');
+const { movieSchema } = require('../schemas.js');
 
 const validateMovie = (req, res, next) => {
     const { error } = movieSchema.validate(req.body);
