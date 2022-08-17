@@ -22,6 +22,7 @@ router.post('/', validatePersonalReview, catchAsync(async (req,res) => {
     movie.personalReviews.push(personalReview);
     await personalReview.save();
     await movie.save();
+    req.flash('success', 'New review created!');
     res.redirect(`/movies/${movie._id}`);
 }))
 
@@ -29,6 +30,7 @@ router.delete('/:personalReviewId', catchAsync(async (req, res) => {
     const { id, personalReviewId } = req.params;
     await Movie.findByIdAndUpdate(id, { $pull: { personalReviews: personalReviewId } });
     await PersonalReview.findByIdAndDelete(personalReviewId);
+    req.flash('success', 'Review deleted!');
     res.redirect(`/movies/${id}`);
 }))
 
