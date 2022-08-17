@@ -2,13 +2,13 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const methodOverride = require('method-override');
 const session = require('express-session');
 //const Movie = require('./models/movie');
 //const catchAsync = require('./utils/catchAsync');
-const ExpressError = require('./utils/ExpressError.js');
+const ExpressError = require('./utils/ExpressError');
 //const { movieSchema, personalReviewSchema } = require('./schemas.js');
 //const PersonalReview = require('./models/personalReview');
+const methodOverride = require('method-override');
 
 const movies = require('./routes/movies');
 const personalReviews = require('./routes/personalReviews');
@@ -29,8 +29,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-//app.use('/static', express.static(path.join(__dirname, 'public'))); ////no errors, but validation doesn't do anything. trying to add a move without a title, and nothing happens
-//app.use(express.static(path.join(__dirname, 'public'))); ////validation works, but 404 says it can load script
+//app.use('/static', express.static(path.join(__dirname, 'public'))); ////validation works, but 404 says it can load script
+app.use(express.static(path.join(__dirname, 'public'))); ////no errors, but validation doesn't do anything. trying to add a move without a title, and nothing happens
 
 
 app.use('/movies', movies);
@@ -55,19 +55,6 @@ app.use('/movies/:id/personalReviews', personalReviews);
 app.get('/', (req, res) => {
     res.render('home');
 })
-
-//make test movie to test database
-/*
-app.get('/makemovie', async (req,res) => {
-    const movie = new Movie({title: 'Test Movie'});
-    await movie.save();
-    res.send(movie);
-})
-*/
-
-
-
-
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page not found', 404))

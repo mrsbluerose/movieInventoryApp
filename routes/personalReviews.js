@@ -3,7 +3,7 @@ const router = express.Router( { mergeParams: true} ); //tells express router to
 const Movie = require('../models/movie');
 const PersonalReview = require('../models/personalReview');
 const catchAsync = require('../utils/catchAsync');
-const ExpressError = require('../utils/ExpressError.js');
+const ExpressError = require('../utils/ExpressError');
 const { personalReviewSchema } = require('../schemas.js');
 
 const validatePersonalReview = (req, res, next) => {

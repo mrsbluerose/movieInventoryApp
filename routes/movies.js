@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const Movie = require('../models/movie');
 const catchAsync = require('../utils/catchAsync');
-const ExpressError = require('../utils/ExpressError.js');
 const { movieSchema } = require('../schemas.js');
+const ExpressError = require('../utils/ExpressError');
+const Movie = require('../models/movie');
 
 const validateMovie = (req, res, next) => {
     const { error } = movieSchema.validate(req.body);
