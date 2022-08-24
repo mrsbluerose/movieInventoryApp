@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const { movieSchema } = require('../schemas.js');
 const ExpressError = require('../utils/ExpressError');
 const Movie = require('../models/movie');
+const { isLoggedIn } = require('../middleware');
 
 const validateMovie = (req, res, next) => {
     const { error } = movieSchema.validate(req.body);
@@ -20,11 +21,11 @@ router.get('/', catchAsync(async (req, res) => {
     res.render('movies/index', { movies });
 }))
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('movies/new');
 })
 
-router.post('/', validateMovie, catchAsync(async (req, res, next) => {
+router.post('/', isLoggedIn, validateMovie, catchAsync(async (req, res, next) => {
     //if(!req.body.movie) throw new ExpressError('Invalid Movie data', 400);
     const movie = new Movie(req.body.movie);
     await movie.save();
@@ -41,7 +42,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('movies/show', { movie });
 }))
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const movie = await Movie.findById(req.params.id);
     if(!movie){
         req.flash('error', 'Cannot find that movie')
@@ -50,14 +51,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
     res.render('movies/edit', { movie });
 }))
 
-router.put('/:id', validateMovie, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateMovie, catchAsync(async (req, res) => {
     const { id } = req.params;
     const movie = await Movie.findByIdAndUpdate(id, { ...req.body.movie });
     req.flash('success', 'Movie Updated!');
     res.redirect(`/movies/${movie._id}`)
 }))
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Movie.findByIdAndDelete(id);
     req.flash('success', 'Movie deleted!');
