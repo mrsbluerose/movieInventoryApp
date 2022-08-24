@@ -11,6 +11,22 @@ const ExpressError = require('./utils/ExpressError');
 //const PersonalReview = require('./models/personalReview');
 const methodOverride = require('method-override');
 
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
+
+const UserSchema = new Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    }
+});
+
+UserSchema.plugin(passportLocalMongoose);
+
+module.exports = mongoose.model('User', UserSchema);
+
 const movies = require('./routes/movies');
 const personalReviews = require('./routes/personalReviews');
 
