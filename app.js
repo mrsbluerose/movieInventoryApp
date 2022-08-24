@@ -15,8 +15,9 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
-const movies = require('./routes/movies');
-const personalReviews = require('./routes/personalReviews');
+const userRoutes = require('./routes/users');
+const movieRoutes = require('./routes/movies');
+const personalReviewRoutes = require('./routes/personalReviews');
 
 mongoose.connect('mongodb://localhost:27017/movie-inventory');
 const db = mongoose.connection;
@@ -72,8 +73,9 @@ app.get('/fakeUser', async (req,res) => {
     res.send(newUser);
 })
 
-app.use('/movies', movies);
-app.use('/movies/:id/personalReviews', personalReviews);
+app.use('/movies', movieRoutes);
+app.use('/movies/:id/personalReviews', personalReviewRoutes);
+app.use('/', userRoutes);
 
 app.get('/', (req, res) => {
     res.render('home');
