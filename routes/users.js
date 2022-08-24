@@ -12,7 +12,7 @@ router.post('/register', catchAsync(async (req, res, next) => {
     try { //use try catch to create better error message
         const { email, username, password } = req.body;
         const user = new User({ email, username });
-        const registeredUser = await User.register(user, password);
+        const registeredUser = await User.register(user, password); //set up to login after registering
         req.login(registeredUser, err => {
             if (err) return next(err);
             req.flash('success', 'Welcome to Movie Inventory!');
@@ -35,10 +35,20 @@ router.post('/login', passport.authenticate('local', { failureFlash: true, failu
     res.redirect(redirectUrl);
 })
 
-router.get('/logout', (req, res) => {
-    req.logout();
-    req.flash('success', "Goodbye!");
-    res.redirect('/movies');
-})
+// router.get('/logout', function (req, res) {
+//     req.logout();
+//     req.flash('success', "Goodbye!");
+//     res.redirect('/movies');
+// })
+
+router.get('/logout', function(req, res, next) { //changed to get method
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      req.flash('success', "Goodbye!");
+      res.redirect('/movies');
+    });
+  });
+
+
 
 module.exports = router;
