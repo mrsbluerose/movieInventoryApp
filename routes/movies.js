@@ -1,20 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-const { movieSchema } = require('../schemas.js');
-const ExpressError = require('../utils/ExpressError');
 const Movie = require('../models/movie');
 const { isLoggedIn } = require('../middleware');
-
-const validateMovie = (req, res, next) => {
-    const { error } = movieSchema.validate(req.body);
-    if(error){
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg,400)
-    } else {
-        next();
-    }
-}
+const { validateMovie } = require('../middleware');
+const { isAuthor } = require('../middleware');
 
 router.get('/', catchAsync(async (req, res) => {
     const movies = await Movie.find({});
@@ -26,15 +16,21 @@ router.get('/new', isLoggedIn, (req, res) => {
 })
 
 router.post('/', isLoggedIn, validateMovie, catchAsync(async (req, res, next) => {
-    //if(!req.body.movie) throw new ExpressError('Invalid Movie data', 400);
     const movie = new Movie(req.body.movie);
+    movie.author = req.user._id;
     await movie.save();
     req.flash('success', 'New movie created!');
+    console.log(`${movie._id}`)
     res.redirect(`/movies/${movie._id}`)
 }))
 
 router.get('/:id', catchAsync(async (req, res) => {
-    const movie = await Movie.findById(req.params.id).populate('personalReviews');
+    const movie = await Movie.findById(req.params.id).populate({
+        path: 'personalReviews',
+        populate: {
+            path: 'author'
+        }
+    }).populate('author');
     if(!movie){
         req.flash('error', 'Cannot find that movie')
         return res.redirect('/movies');
@@ -42,8 +38,9 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('movies/show', { movie });
 }))
 
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
-    const movie = await Movie.findById(req.params.id);
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const movie = await Movie.findById(id);
     if(!movie){
         req.flash('error', 'Cannot find that movie')
         return res.redirect('/movies');
@@ -51,14 +48,14 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     res.render('movies/edit', { movie });
 }))
 
-router.put('/:id', isLoggedIn, validateMovie, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, validateMovie, catchAsync(async (req, res) => {
     const { id } = req.params;
     const movie = await Movie.findByIdAndUpdate(id, { ...req.body.movie });
     req.flash('success', 'Movie Updated!');
-    res.redirect(`/movies/${movie._id}`)
+    res.redirect(`/movies/${movie._id}`);
 }))
 
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Movie.findByIdAndDelete(id);
     req.flash('success', 'Movie deleted!');

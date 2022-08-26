@@ -9,23 +9,25 @@
         <p class="card-text"><%=movie.description%></p>
       </div>
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">a first item</li>
-        <li class="list-group-item">A second item</li>
-        <li class="list-group-item">A third item</li>
+        <li class="list-group-item">Submitted by <%=movie.author.username%></li>
       </ul>
+      <% if (currentUser && movie.author.equals(currentUser._id)) { %>
       <div class="card-body">
         <a href="/movies/<%= movie._id %>/edit" class="card-link btn btn-info">Edit</a>
         <form class="d-inline" action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>
+      <% } %>
       <div class="card-footer text-muted">
         <a href="/movies">All Movies</a>
       </div>
     </div>
   </div>
 
+
   <div class="col-6">
+    <% if(currentUser) { %>
     <h2>Leave Your Personal Review</h2>
     <form class="mb-3 needs-validation" action="/movies/<%=movie._id%>/personalReviews" method="POST" novalidate>
       <div class="mb-3">
@@ -38,15 +40,19 @@
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
+    <% } %>
     <% if(movie.personalReviews.length > 0) { %>
     <% for(let personalReview of movie.personalReviews) { %>
     <div class="card mb-3 ">
       <div class="card-body">
         <h5 class="card-title">Rating: <%= personalReview.rating %></h5>
+        <h6 class="card-subtitle mb-2 text-muted">Submitted by <%= personalReview.author.username %></h6>
         <p class="card-text">Review: <%= personalReview.body %></p>
-        <form action="/movies/<%=movie._id%>/personalReviews/<%=personalReview._id%>?_method=DELETE" method="POST">
-          <button class="btn btn-sm btn-danger">Delete</button>
-        </form>
+        <% if (currentUser && personalReview.author.equals(currentUser._id)) { %>
+          <form action="/movies/<%=movie._id%>/personalReviews/<%=personalReview._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        <% } %>
       </div>
     </div>
     <% } %>
