@@ -11,7 +11,7 @@ const ListSchema = new Schema({
     movies: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'movie'
+            ref: 'Movie'
         }
     ]
 });

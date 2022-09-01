@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Movie = require('../models/movie');
 const PersonalReview = require('../models/personalReview');
 const User = require('../models/user');
+const List = require('../models/list');
 
 mongoose.connect('mongodb://localhost:27017/movie-inventory');
 const db = mongoose.connection;
@@ -17,6 +18,7 @@ const seedDB = async () => {
     await Movie.deleteMany({});
     await PersonalReview.deleteMany({});
     await User.deleteMany({});
+    await List.deleteMany({});
     const user = new User({ email: 'seed', username: 'seed' });
     const password = 'seed';
     await User.register(user, password);

@@ -1,8 +1,17 @@
 const List = require('../models/list');
 
 module.exports.index = async (req, res) => {
-    const lists = await List.find({});
-    res.render('list/index', { lists })
+    const unsortedLists = await List.find({});
+    const lists = unsortedLists.sort((a,b) => {
+        if (a.title < b.title) {
+            return -1;
+        }
+        if (a.title > b.title) {
+            return 1;
+        }
+        return 0;
+    });
+    res.render('lists/index', { lists })
 }
 
 module.exports.renderNewForm = (req, res) => {
@@ -18,12 +27,7 @@ module.exports.createList = async (req, res, next) => {
 }
 
 module.exports.showList = async (req, res,) => {
-    const list = await List.findById(req.params.id).populate({
-        path: 'movies',
-        populate: {
-            path: 'author'
-        }
-    }).populate('author');
+    const list = await List.findById(req.params.id).populate({ path:'movies' }).populate('author');
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
