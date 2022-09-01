@@ -1,7 +1,16 @@
 const Movie = require('../models/movie');
 
 module.exports.index = async (req, res) => {
-    const movies = await Movie.find({});
+    const unsortedMovies = await Movie.find({});
+    const movies = unsortedMovies.sort((a,b) => {
+        if (a.title < b.title) {
+            return -1;
+        }
+        if (a.title > b.title) {
+            return 1;
+        }
+        return 0;
+    });
     res.render('movies/index', { movies })
 }
 
