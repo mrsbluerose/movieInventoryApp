@@ -1,0 +1,10 @@
+<% layout('layouts/boilerplate') %>
+    <h1><%= list.title %></h1>
+    <div>
+        <a href="/movies/new">Add Movie</a>
+    </div>
+    <ul>
+        <% for (let movie of movies) {%>
+        <li><a href="/movies/<%= movie._id %>"><%= movie.title %></a></li>
+        <% }%>
+    </ul>

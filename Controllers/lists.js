@@ -19,7 +19,7 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createList = async (req, res, next) => {
-    const list = new List(req.body.movie);
+    const list = new List(req.body.list);
     list.author = req.user._id;
     await list.save();
     req.flash('success', 'Successfully made a new list!');
@@ -47,7 +47,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateList = async (req, res) => {
     const { id } = req.params;
-    const movie = await List.findByIdAndUpdate(id, { ...req.body.movie });
+    const movie = await List.findByIdAndUpdate(id, { ...req.body.list });
     req.flash('success', 'Successfully updated list!');
     res.redirect(`/lists/${list._id}`)
 }

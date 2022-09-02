@@ -4,11 +4,7 @@ const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const session = require('express-session');
 const flash = require('connect-flash');
-//const Movie = require('./models/movie');
-//const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-//const { movieSchema, personalReviewSchema } = require('./schemas.js');
-//const PersonalReview = require('./models/personalReview');
 const methodOverride = require('method-override');
 
 const passport = require('passport');
@@ -16,10 +12,11 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
 const userRoutes = require('./routes/users');
+const listRoutes = require('./routes/lists');
 const movieRoutes = require('./routes/movies');
 const personalReviewRoutes = require('./routes/personalReviews');
 
-mongoose.connect('mongodb://localhost:27017/movie-inventory');
+mongoose.connect('mongodb://localhost:27017/movie-inventory-lists');
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -71,6 +68,7 @@ app.use((req, res, next) => {
 app.use('/movies', movieRoutes);
 app.use('/movies/:id/personalReviews', personalReviewRoutes);
 app.use('/', userRoutes);
+app.use('/lists', listRoutes);
 
 app.get('/', (req, res) => {
     res.render('home');
