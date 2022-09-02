@@ -28,13 +28,13 @@ const seedDB = async () => {
             title: 'What we own',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            movies: [],
+            movies: []
         },
         {
             title: 'Bad Movie Night',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            movies: [],
+            movies: []
         },
         {
             title: `Show the Kiddo`,
@@ -47,13 +47,13 @@ const seedDB = async () => {
             title: 'Chick Night',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            movies: [],
+            movies: []
         },
         {
             title: 'Date Night',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            movies: [],
+            movies: []
         }
 
     ]

@@ -1,7 +1,37 @@
 <% layout('layouts/boilerplate') %>
     <h1><%= list.title %></h1>
-    <ul>
-        <% for (let movie of movies) {%>
-        <li><%= movie.title %></li>
-        <% }%>
-    </ul>
+    <% if(list.movies.length > 0) { %>
+        <% for(let movie of list.movies) { %>
+        <div class="card mb-3 ">
+          <div class="card-body">
+            <h5 class="card-title"><%= movie.title %></h5>
+            <h6 class="card-subtitle mb-2 text-muted">Submitted by <%= movie.author.username %></h6>
+            <p class="card-text">Description: <%= movie.description %></p>
+            <% if (currentUser && movie.author.equals(currentUser._id)) { %>
+              <form action="/list/<%=list._id%>/movies/<%=movie._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-sm btn-danger">Delete</button>
+              </form>
+            <% } %>
+          </div>
+        </div>
+        <% } %>
+        <% } %>
+
+    <div class="col-6">
+        <% if(currentUser) { %>
+        <h2>Add a Movie</h2>
+        <form class="mb-3 needs-validation" action="/lists/<%=list._id%>/movies" method="POST" novalidate>
+          <div class="mb-3">
+            <label class="form-label" for="title">Movie Title</label>
+            <input class="form-range" type="text" name="movie[title]" id="title">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-control" name="movie[description]" id="description" cols="30" rows="5" required></textarea>
+          </div>
+          <button class="btn btn-success">Submit</button>
+        </form>
+        <% } %>
+        
+      </div>
+    </div>

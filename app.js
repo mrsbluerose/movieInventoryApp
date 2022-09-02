@@ -65,8 +65,9 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/movies', movieRoutes);
-app.use('/movies/:id/personalReviews', personalReviewRoutes);
+//app.use('/movies', movieRoutes);
+//app.use('/movies/:id/personalReviews', personalReviewRoutes);
+app.use('/lists/:id/movies', movieRoutes);
 app.use('/', userRoutes);
 app.use('/lists', listRoutes);
 

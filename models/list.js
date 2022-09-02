@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Movie = require('./movie');
 
 const ListSchema = new Schema({
     title: String,

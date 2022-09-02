@@ -17,14 +17,14 @@ const MovieSchema = new Schema({
     ]
 });
 
-MovieSchema.post('findOneAndDelete', async function (doc) {
-    if(doc){
-        await PersonalReview.deleteMany({
-            _id: {
-                $in: doc.personalReviews
-            }
-        })
-    }
-})
+// MovieSchema.post('findOneAndDelete', async function (doc) {
+//     if(doc){
+//         await PersonalReview.deleteMany({
+//             _id: {
+//                 $in: doc.personalReviews
+//             }
+//         })
+//     }
+// })
 
 module.exports = mongoose.model('Movie', MovieSchema);

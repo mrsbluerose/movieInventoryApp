@@ -12,7 +12,7 @@ module.exports.register = async (req, res, next) => {
             req.login(registeredUser, err => {
                 if (err) return next(err);
                 req.flash('success', 'Welcome to Movie Inventory!');
-                res.redirect('/movies');
+                res.redirect('/lists');
             })
         } catch (e) {
             req.flash('error', e.message);
@@ -26,7 +26,7 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.login = (req, res) => {
     req.flash('success', 'welcome back!');
-    const redirectUrl = req.session.returnTo || '/movies';
+    const redirectUrl = req.session.returnTo || '/lists';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
 }
@@ -35,6 +35,6 @@ module.exports.logout = function(req, res, next) { //changed to get method and n
     req.logout(function(err) {
         if (err) { return next(err); }
         req.flash('success', "Goodbye!");
-        res.redirect('/movies');
+        res.redirect('/lists');
     });
 }
