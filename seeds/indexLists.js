@@ -1,12 +1,12 @@
 //self contained file to run when necessary to seed files (rebuild, changes, etc.)
-//This version does not include lists
 
 const mongoose = require('mongoose');
 const Movie = require('../models/movie');
 const PersonalReview = require('../models/personalReview');
 const User = require('../models/user');
+const List = require('../models/list');
 
-mongoose.connect('mongodb://localhost:27017/movie-inventory');
+mongoose.connect('mongodb://localhost:27017/movie-inventory-lists');
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -18,44 +18,42 @@ const seedDB = async () => {
     await Movie.deleteMany({});
     await PersonalReview.deleteMany({});
     await User.deleteMany({});
+    await List.deleteMany({});
     const user = new User({ email: 'seed', username: 'seed' });
     const password = 'seed';
     await User.register(user, password);
-    await Movie.insertMany(
+    await List.insertMany(
         [
         {
-            title: `Home Alone`,
+            title: 'What we own',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            personalReviews: [],
+            movies: [],
         },
         {
-            title: `Face Off`,
+            title: 'Bad Movie Night',
+            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
+            author: user._id,
+            movies: [],
+        },
+        {
+            title: `Show the Kiddo`,
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             //author: '63090d061b0956e0e81b6667',
             author: user._id,
             personalReviews: []
         },
         {
-            title: `Cold Comfort Farm`,
+            title: 'Chick Night',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            //author: '63090d061b0956e0e81b6667',
             author: user._id,
-            personalReviews: []
+            movies: [],
         },
         {
-            title: `Top Gun`,
+            title: 'Date Night',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            //author: '63090d061b0956e0e81b6667',
             author: user._id,
-            personalReviews: []
-        },
-        {
-            title: `Galaxy Quest`,
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            //author: '63090d061b0956e0e81b6667',
-            author: user._id,
-            personalReviews: []
+            movies: [],
         }
 
     ]
