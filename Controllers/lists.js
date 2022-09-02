@@ -23,6 +23,8 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.createList = async (req, res, next) => {
     const list = new List(req.body.list);
     list.author = req.user._id;
+    //const movie = new Movie({title: 'title', description: 'description'});
+    //list.movies.push(movie);
     await list.save();
     req.flash('success', 'Successfully made a new list!');
     res.redirect(`/lists/${list._id}`)
@@ -41,7 +43,6 @@ module.exports.createList = async (req, res, next) => {
 
 module.exports.showList = async (req, res,) => {
     const list = await List.findById(req.params.id).populate({ path:'movies' }).populate('author');
-    console.log(list);
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');

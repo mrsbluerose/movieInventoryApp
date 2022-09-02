@@ -72,8 +72,8 @@ module.exports.addMovie = async (req, res) => {
     list.movies.push(movie);
     await movie.save();
     await list.save();
-    req.flash('success', 'New review created!');
-    res.redirect(`/movies/${movie._id}`);
+    req.flash('success', 'New review added!');
+    res.redirect(`/list/${list._id}`);
 }
 
 module.exports.deleteMovie = async (req, res) => {

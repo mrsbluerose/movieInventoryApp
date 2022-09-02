@@ -22,8 +22,8 @@ const { isAuthor } = require('../middleware');
 // router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(movies.renderEditForm));
 
 
-router.post('/', isLoggedIn, catchAsync(movies.addMovie));
-// router.post('/', isLoggedIn, validateMovie, catchAsync(movies.addMovie));
+//router.post('/', isLoggedIn, catchAsync(movies.addMovie));
+router.post('/', isLoggedIn, validateMovie, catchAsync(movies.addMovie));
 
 router.delete('/:movieId', isLoggedIn, isAuthor, catchAsync(movies.deleteMovie));
 

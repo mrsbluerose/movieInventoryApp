@@ -8,13 +8,13 @@ const MovieSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    },
-    personalReviews: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'PersonalReview'
-        }
-    ]
+    }//,
+    // personalReviews: [
+    //     {
+    //         type: Schema.Types.ObjectId,
+    //         ref: 'PersonalReview'
+    //     }
+    // ]
 });
 
 // MovieSchema.post('findOneAndDelete', async function (doc) {
