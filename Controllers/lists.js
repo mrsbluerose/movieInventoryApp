@@ -1,3 +1,4 @@
+const { register } = require('../models/list');
 const List = require('../models/list');
 
 module.exports.index = async (req, res) => {
@@ -28,8 +29,13 @@ module.exports.createList = async (req, res, next) => {
 
 module.exports.showList = async (req, res,) => {
     const list = await List.findById(req.params.id).populate({ path:'movies' }).populate('author');
+    console.log(list);
     if (!list) {
         req.flash('error', 'Cannot find that list!');
+        return res.redirect('/lists');
+    }
+    if(list.movies.length === 0 ) {
+        req.flash('error', 'No movies to show!');
         return res.redirect('/lists');
     }
     res.render('lists/show', { list });
