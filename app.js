@@ -66,10 +66,11 @@ app.use((req, res, next) => {
 })
 
 //app.use('/movies', movieRoutes);
-//app.use('/movies/:id/personalReviews', personalReviewRoutes);
-app.use('/lists/:id/movies', movieRoutes);
-app.use('/', userRoutes);
+//app.use('/movies/:id/personalReview', personalReviewRoutes);
 app.use('/lists', listRoutes);
+app.use('/lists/:id/movie', movieRoutes);
+app.use('/', userRoutes);
+//app.use('/lists', listRoutes);
 
 app.get('/', (req, res) => {
     res.render('home');

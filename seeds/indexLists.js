@@ -28,32 +28,32 @@ const seedDB = async () => {
             title: 'What we own',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            movies: []
+            movieList: []
         },
         {
             title: 'Bad Movie Night',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            movies: []
+            movieList: []
         },
         {
             title: `Show the Kiddo`,
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             //author: '63090d061b0956e0e81b6667',
             author: user._id,
-            personalReviews: []
+            movieList: []
         },
         {
             title: 'Chick Night',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            movies: []
+            movieList: []
         },
         {
             title: 'Date Night',
             description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             author: user._id,
-            movies: []
+            movieList: []
         }
 
     ]

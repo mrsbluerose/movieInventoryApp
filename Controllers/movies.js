@@ -67,18 +67,20 @@ const List = require('../models/list');
 
 module.exports.addMovie = async (req, res) => {
     const list = await List.findById(req.params.id);
+    console.log(list.title);
     const movie = new Movie(req.body.movie);
+    console.log(movie.title);
     movie.author = req.user._id;
-    list.movies.push(movie);
+    list.movieList.push(movie);
     await movie.save();
     await list.save();
     req.flash('success', 'New review added!');
-    res.redirect(`/list/${list._id}`);
+    res.redirect(`/lists/${list._id}`);
 }
 
 module.exports.deleteMovie = async (req, res) => {
     const { id, movieId } = req.params;
-    await List.findByIdAndUpdate(id, { $pull: { movies: movieId } });
+    await List.findByIdAndUpdate(id, { $pull: { movieList: movieId } });
     await Movie.findByIdAndDelete(MovieId);
     req.flash('success', 'Successfully deleted movie')
     res.redirect(`/lists/${id}`);

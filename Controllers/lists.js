@@ -42,7 +42,7 @@ module.exports.createList = async (req, res, next) => {
 // }
 
 module.exports.showList = async (req, res,) => {
-    const list = await List.findById(req.params.id).populate({ path:'movies' }).populate('author');
+    const list = await List.findById(req.params.id).populate({ path:'movieList' }).populate('author');
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
