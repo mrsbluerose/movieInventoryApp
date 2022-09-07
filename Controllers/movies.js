@@ -66,6 +66,8 @@ const List = require('../models/list');
 // }
 
 module.exports.addMovie = async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
     const list = await List.findById(req.params.id);
     console.log(list.title);
     const movie = new Movie(req.body.movie);
