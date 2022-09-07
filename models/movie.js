@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 const PersonalReview = require('./personalReview');
 
 const MovieSchema = new Schema({
-    title: String,
-    description: String,
-    author: {
+    movieTitle: String,
+    movieDescription: String,
+    movieAuthor: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     }//,

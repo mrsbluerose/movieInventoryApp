@@ -5,10 +5,10 @@ const Movie = require('../models/movie');
 module.exports.index = async (req, res) => {
     const unsortedLists = await List.find({});
     const lists = unsortedLists.sort((a,b) => {
-        if (a.title < b.title) {
+        if (a.listTitle < b.listTitle) {
             return -1;
         }
-        if (a.title > b.title) {
+        if (a.listTitle > b.listTitle) {
             return 1;
         }
         return 0;
@@ -22,7 +22,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createList = async (req, res, next) => {
     const list = new List(req.body.list);
-    list.author = req.user._id;
+    list.listAuthor = req.user._id;
     //const movie = new Movie({title: 'title', description: 'description'});
     //list.movies.push(movie);
     await list.save();
@@ -42,7 +42,7 @@ module.exports.createList = async (req, res, next) => {
 // }
 
 module.exports.showList = async (req, res,) => {
-    const list = await List.findById(req.params.id).populate({ path:'movieList' }).populate('author');
+    const list = await List.findById(req.params.id).populate({ path:'listOfMovies' }).populate('listAuthor');
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');

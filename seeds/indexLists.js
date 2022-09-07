@@ -25,35 +25,34 @@ const seedDB = async () => {
     await List.insertMany(
         [
         {
-            title: 'What we own',
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            author: user._id,
-            movieList: []
+            listTitle: 'What we own',
+            listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
+            listAuthor: user._id,
+            listOfMovies: []
         },
         {
-            title: 'Bad Movie Night',
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            author: user._id,
-            movieList: []
+            listTitle: 'Bad Movie Night',
+            listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
+            listAuthor: user._id,
+            listOfMovies: []
         },
         {
-            title: `Show the Kiddo`,
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            //author: '63090d061b0956e0e81b6667',
-            author: user._id,
-            movieList: []
+            listTitle: 'Show the Kiddo',
+            listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
+            listAuthor: user._id,
+            listOfMovies: []
         },
         {
-            title: 'Chick Night',
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            author: user._id,
-            movieList: []
+            listTitle: 'Chick Flicks',
+            listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
+            listAuthor: user._id,
+            listOfMovies: []
         },
         {
-            title: 'Date Night',
-            description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
-            author: user._id,
-            movieList: []
+            listTitle: 'Date Night',
+            listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
+            listAuthor: user._id,
+            listOfMovies: []
         }
 
     ]

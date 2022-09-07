@@ -66,14 +66,15 @@ const List = require('../models/list');
 // }
 
 module.exports.addMovie = async (req, res) => {
+    console.log( require('util').inspect( req.params ) );//////
     const { id } = req.params;
-    console.log(id);
+    console.log(id);///////
     const list = await List.findById(req.params.id);
-    console.log(list.title);
+    console.log(list.listTitle);////////
     const movie = new Movie(req.body.movie);
-    console.log(movie.title);
-    movie.author = req.user._id;
-    list.movieList.push(movie);
+    console.log(movie.movieTitle);////////
+    movie.movieAuthor = req.user._id;
+    list.listOfMovies.push(movie);
     await movie.save();
     await list.save();
     req.flash('success', 'New review added!');

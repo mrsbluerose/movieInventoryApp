@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 const Movie = require('./movie');
 
 const ListSchema = new Schema({
-    title: String,
-    description: String,
-    author: {
+    listTitle: String,
+    listDescription: String,
+    listAuthor: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    movieList: [
+    listOfMovies: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Movie'

@@ -25,7 +25,7 @@ module.exports.validateMovie = (req, res, next) => {
 module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const movie = await Movie.findById(id);
-    if (!movie.author.equals(req.user._id)) {
+    if (!movie.movieAuthor.equals(req.user._id)) {
         req.flash('error', 'You do not have permission to do that!');
         return res.redirect(`/movies/${id}`);
     }
