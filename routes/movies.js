@@ -3,9 +3,7 @@ const router = express.Router();
 const movies = require('../controllers/movies');
 const catchAsync = require('../utils/catchAsync');
 //const Movie = require('../models/movie');
-const { isLoggedIn } = require('../middleware');
-const { validateMovie } = require('../middleware');
-const { isAuthor } = require('../middleware');
+const { isLoggedIn, validateMovie, isAuthor, testPrint } = require('../middleware');
 
 
 // router.route('/')
@@ -23,7 +21,8 @@ const { isAuthor } = require('../middleware');
 
 
 //router.post('/', isLoggedIn, catchAsync(movies.addMovie));
-router.post('/', isLoggedIn, validateMovie, catchAsync(movies.addMovie));
+
+router.post('/', isLoggedIn, validateMovie, /*testPrint,*/ catchAsync(movies.addMovie)); //Test Print: params did not make it from the router
 
 router.delete('/:movieId', isLoggedIn, isAuthor, catchAsync(movies.deleteMovie));
 

@@ -51,3 +51,7 @@ module.exports.validatePersonalReview = (req, res, next) => {
         next();
     }
 }
+
+module.exports.testPrint = (req, res, next) => {
+    console.log("req id from router: " + req.params.id)
+}

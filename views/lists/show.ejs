@@ -20,8 +20,8 @@
     <div class="col-6">
         <% if(currentUser) { %>
         <h2>Add a Movie</h2>
-        <form class="mb-3 needs-validation" action="/lists/<%= list._id %>/movie" method="POST" novalidate>
-          <% console.log(list._id) %>
+        <form class="mb-3 needs-validation" action="/lists/<%= list._id %>/movies" method="POST" novalidate>
+          <% console.log(list._id) //Print Test prints correct id%>
           <div class="mb-3">
             <label for="movieTitle">Movie Title</label>
             <input type="text" name="movie[movieTitle]" id="movieTitle">
@@ -33,6 +33,11 @@
           <button class="btn btn-success">Add Movie</button>
         </form>
         <% } %>
-        
       </div>
     </div>
+
+    <!-- 
+
+
+
+     -->

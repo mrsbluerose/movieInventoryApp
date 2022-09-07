@@ -1,13 +1,8 @@
 const express = require('express');
 const router = express.Router();
-//const movies = require('../controllers/movies');
 const lists = require('../controllers/lists');
 const catchAsync = require('../utils/catchAsync');
-//const Movie = require('../models/movie');
 const { isLoggedIn } = require('../middleware');
-const { validateMovie } = require('../middleware');
-const { isAuthor } = require('../middleware');
-
 
 router.route('/')
     .get(catchAsync(lists.index))

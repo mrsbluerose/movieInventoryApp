@@ -68,9 +68,9 @@ app.use((req, res, next) => {
 //app.use('/movies', movieRoutes);
 //app.use('/movies/:id/personalReview', personalReviewRoutes);
 app.use('/lists', listRoutes);
-app.use('/lists/:id/movie', movieRoutes);
+app.use('/lists/:id/movies', movieRoutes); //this appears to route 
 app.use('/', userRoutes);
-//app.use('/lists', listRoutes);
+
 
 app.get('/', (req, res) => {
     res.render('home');
