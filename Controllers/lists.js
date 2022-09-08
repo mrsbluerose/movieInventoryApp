@@ -1,6 +1,6 @@
 const { register } = require('../models/list');
 const List = require('../models/list');
-const Movie = require('../models/movie');
+//const Movie = require('../models/movie');
 
 module.exports.index = async (req, res) => {
     const unsortedLists = await List.find({});

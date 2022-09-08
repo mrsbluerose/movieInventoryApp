@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 const movies = require('../controllers/movies');
 const catchAsync = require('../utils/catchAsync');
 //const Movie = require('../models/movie');
