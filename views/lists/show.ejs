@@ -1,43 +1,61 @@
 <% layout('layouts/boilerplate') %>
-    <h1><%= list.listTitle %></h1>
-    <% if(list.listOfMovies.length > 0) { %>
-        <% for(let movie of list.listOfMovies) { %>
-        <div class="card mb-3 ">
-          <div class="card-body">
-            <h5 class="card-title"><%= movie.movieTitle %></h5>
-            <h6 class="card-subtitle mb-2 text-muted">Submitted by <%= movie.movieAuthor.username %></h6>
-            <p class="card-text">Description: <%= movie.movieDescription %></p>
-            <% if (currentUser && movie.movieAuthor.equals(currentUser._id)) { %>
-              <form action="/list/<%=list._id%>/movies/<%=movie._id%>?_method=DELETE" method="POST">
-                <button class="btn btn-sm btn-danger">Delete</button>
-              </form>
-            <% } %>
-          </div>
+<div class="row">
+  <div class="col-6">
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title"><%=list.listTitle%></h5>
+        <p class="card-text"><%=list.listDescription%></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Created by <%=list.listAuthor.username%></li>
+      </ul>
+      <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
+        <div class="card-body">
+          <a href="/lists/<%= list._id %>/edit" class="card-link btn btn-info">Edit</a>
+          <form class="d-inline" action="/lists/<%=list._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">Delete</button>
+          </form>
         </div>
         <% } %>
-        <% } %>
-
-    <div class="col-6">
-        <% if(currentUser) { %>
-        <h2>Add a Movie</h2>
-        <form class="mb-3 needs-validation" action="/lists/<%= list._id %>/movies" method="POST" novalidate>
-          <% console.log(list._id) //Print Test prints correct id%>
-          <div class="mb-3">
-            <label for="movieTitle">Movie Title</label>
-            <input type="text" name="movie[movieTitle]" id="movieTitle">
-          </div>
-          <div class="mb-3">
-            <label for="movieDescription">Description</label>
-            <input type="text" name="movie[movieDescription]" id="movieDescription" required>
-          </div>
-          <button class="btn btn-success">Add Movie</button>
-        </form>
-        <% } %>
-      </div>
+        <div class="card-footer text-muted">
+          <a href="/lists">All Movies</a>
+        </div>
     </div>
+  </div>
 
-    <!-- 
+<div class="col-6">
+    <% if(currentUser) { %>
+    <h2>Add a Movie</h2>
+    <form class="mb-3 needs-validation" action="/lists/<%= list._id %>/movies" method="POST" novalidate>
+      <% console.log(list._id) //Print Test prints correct id%>
+      <div class="mb-3">
+        <label for="movieTitle">Movie Title</label>
+        <input type="text" name="movie[movieTitle]" id="movieTitle">
+      </div>
+      <div class="mb-3">
+        <label for="movieDescription">Description</label>
+        <textarea class="form-control" name="movie[movieDescription]" id="movieDescription" cols="30" rows="5" required></textarea>
+      </div>
+      <button class="btn btn-success">Add Movie</button>
+    </form>
+    <% } %>
+    <% if(list.listOfMovies.length > 0) { %>
+      <% for(let movie of list.listOfMovies) { %>
+      <div class="card mb-3 ">
+        <div class="card-body">
+          <h5 class="card-title"><%= movie.movieTitle %></h5>
+          <h6 class="card-subtitle mb-2 text-muted">Submitted by <%= movie.movieAuthor.username %></h6>
+          <p class="card-text">Description: <%= movie.movieDescription %></p>
+          <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
+            <form action="/lists/<%=list._id%>/movies/<%=movie._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          <% } %>
+        </div>
+      </div>
+      <% } %>
+      <% } %>
+  </div>
+</div>
 
-
-
-     -->
+  

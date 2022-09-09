@@ -84,7 +84,7 @@ module.exports.addMovie = async (req, res) => {
 module.exports.deleteMovie = async (req, res) => {
     const { id, movieId } = req.params;
     await List.findByIdAndUpdate(id, { $pull: { movieList: movieId } });
-    await Movie.findByIdAndDelete(MovieId);
+    await Movie.findByIdAndDelete(movieId);
     req.flash('success', 'Successfully deleted movie')
     res.redirect(`/lists/${id}`);
 }

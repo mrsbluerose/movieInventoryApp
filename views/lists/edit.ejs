@@ -1,0 +1,15 @@
+<% layout('layouts/boilerplate') %>
+    <h1>Edit List</h1>
+    <form action="/lists/<%=list._id%>?_method=PUT" method="POST" class="needs-validation" novalidate>
+        
+        <div>
+            <label for="listTitle">Title</label>
+            <input type="text" id="listTitle" name="list[listTitle]" value="<%=list.listTitle %>" required>
+        </div>
+        <div>
+            <label for="listDescription">Description</label>
+            <input type="text" id="listDescription" name="list[listDescription]" value="<%= list.listDescription%>" required>
+        </div>
+        <button>Update List</button>
+    </form>
+    <a href="/list/<%= list._id%>">Back To List</a>

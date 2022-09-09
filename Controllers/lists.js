@@ -23,8 +23,6 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.createList = async (req, res, next) => {
     const list = new List(req.body.list);
     list.listAuthor = req.user._id;
-    //const movie = new Movie({title: 'title', description: 'description'});
-    //list.movies.push(movie);
     await list.save();
     req.flash('success', 'Successfully made a new list!');
     res.redirect(`/lists/${list._id}`)

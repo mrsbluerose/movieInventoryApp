@@ -66,7 +66,7 @@ app.use((req, res, next) => {
 })
 
 //app.use('/movies', movieRoutes);
-//app.use('/movies/:id/personalReview', personalReviewRoutes);
+//app.use('/movies/:id/personalReviews', personalReviewRoutes);
 app.use('/', userRoutes);
 app.use('/lists', listRoutes);
 app.use('/lists/:id/movies', movieRoutes); //this appears to route 

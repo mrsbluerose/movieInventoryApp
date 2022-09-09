@@ -3,7 +3,7 @@ const router = express.Router({mergeParams: true});
 const movies = require('../controllers/movies');
 const catchAsync = require('../utils/catchAsync');
 //const Movie = require('../models/movie');
-const { isLoggedIn, validateMovie, isAuthor, testPrint } = require('../middleware');
+const { isLoggedIn, validateMovie, isMovieAuthor, testPrint } = require('../middleware');
 
 
 // router.route('/')
@@ -24,6 +24,6 @@ const { isLoggedIn, validateMovie, isAuthor, testPrint } = require('../middlewar
 
 router.post('/', isLoggedIn, validateMovie, /*testPrint,*/ catchAsync(movies.addMovie)); //Test Print: params did not make it from the router
 
-router.delete('/:movieId', isLoggedIn, isAuthor, catchAsync(movies.deleteMovie));
+router.delete('/:movieId', isLoggedIn, isMovieAuthor, catchAsync(movies.deleteMovie));
 
 module.exports = router;
