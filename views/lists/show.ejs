@@ -18,7 +18,7 @@
         </div>
         <% } %>
         <div class="card-footer text-muted">
-          <a href="/lists">All Movies</a>
+          <a href="/lists">All Lists</a>
         </div>
     </div>
   </div>
@@ -27,7 +27,6 @@
     <% if(currentUser) { %>
     <h2>Add a Movie</h2>
     <form class="mb-3 needs-validation" action="/lists/<%= list._id %>/movies" method="POST" novalidate>
-      <% console.log(list._id) //Print Test prints correct id%>
       <div class="mb-3">
         <label for="movieTitle">Movie Title</label>
         <input type="text" name="movie[movieTitle]" id="movieTitle">

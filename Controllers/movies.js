@@ -66,13 +66,9 @@ const List = require('../models/list');
 // }
 
 module.exports.addMovie = async (req, res) => {
-    console.log( req.params ) ;//////Print Test: empty params
     const { id } = req.params;
-    console.log(id);///////Print Test: undefined
     const list = await List.findById(id);
-    console.log(list.listTitle);////////Print Test: undefined
     const movie = new Movie(req.body.movie);
-    console.log(movie.movieTitle);////////Print Test: undefined
     movie.movieAuthor = req.user._id;
     list.listOfMovies.push(movie);
     await movie.save();

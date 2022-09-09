@@ -28,17 +28,6 @@ module.exports.createList = async (req, res, next) => {
     res.redirect(`/lists/${list._id}`)
 }
 
-// module.exports.addMovie = async (req, res) => {
-//     const list = await List.findById(req.params.id);
-//     const movie = new Movie(req.body.Movie);
-//     movie.author = req.user._id;
-//     list.movies.push(movie);
-//     await movie.save();
-//     await list.save();
-//     req.flash('success', 'New movie added!');
-//     res.redirect(`/lists/${list._id}`);
-// }
-
 module.exports.showList = async (req, res,) => {
     const list = await List.findById(req.params.id).populate({ path:'listOfMovies' }).populate('listAuthor');
     if (!list) {
@@ -60,7 +49,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateList = async (req, res) => {
     const { id } = req.params;
-    const movie = await List.findByIdAndUpdate(id, { ...req.body.list });
+    const list = await List.findByIdAndUpdate(id, { ...req.body.list });
     req.flash('success', 'Successfully updated list!');
     res.redirect(`/lists/${list._id}`)
 }

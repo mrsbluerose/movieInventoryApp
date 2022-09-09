@@ -17,4 +17,15 @@ const ListSchema = new Schema({
     ]
 });
 
+//removes all movies associated with a list being deleted
+ListSchema.post('findOneAndDelete', async function (doc) {
+    if(doc){
+        await Movie.deleteMany({
+            _id: {
+                $in: doc.listOfMovies
+            }
+        })
+    }
+})
+
 module.exports = mongoose.model('List', ListSchema);
