@@ -1,5 +1,6 @@
 const Movie = require('../models/movie');
 const List = require('../models/list');
+const TMDB = require('../api/tmdb');
 
 // module.exports.index = async (req, res) => {
 //     const unsortedMovies = await Movie.find({});
@@ -64,6 +65,11 @@ const List = require('../models/list');
 //     req.flash('success', 'Successfully deleted movie')
 //     res.redirect('/movies');
 // }
+
+module.exports.searchMovie = async (req,res) => {
+    const movieTitle = 
+
+}
 
 module.exports.addMovie = async (req, res) => {
     const { id } = req.params;
