@@ -8,14 +8,25 @@ const MovieSchema = new Schema({
     movieAuthor: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }//,
-    // personalReviews: [
-    //     {
-    //         type: Schema.Types.ObjectId,
-    //         ref: 'PersonalReview'
-    //     }
-    // ]
+    },
+    movieUrl: String,
+    movieImgUrl: String
 });
+
+// const MovieSchema = new Schema({
+//     movieTitle: String,
+//     movieDescription: String,
+//     movieAuthor: {
+//         type: Schema.Types.ObjectId,
+//         ref: 'User'
+//     }//,
+//     // personalReviews: [
+//     //     {
+//     //         type: Schema.Types.ObjectId,
+//     //         ref: 'PersonalReview'
+//     //     }
+//     // ]
+// });
 
 // MovieSchema.post('findOneAndDelete', async function (doc) {
 //     if(doc){

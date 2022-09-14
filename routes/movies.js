@@ -21,6 +21,7 @@ const { isLoggedIn, validateMovie, isMovieAuthor } = require('../middleware');
 
 
 //router.post('/', isLoggedIn, catchAsync(movies.addMovie));
+router.get('/search', catchAsync(movies.search));
 
 router.post('/', isLoggedIn, validateMovie, catchAsync(movies.addMovie)); 
 
