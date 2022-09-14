@@ -1,5 +1,6 @@
 module.exports.config = 
     {
+        baseURL: "https://api.themoviedb.org/3",
         images:
             {
                 base_url:"http://image.tmdb.org/t/p/",
