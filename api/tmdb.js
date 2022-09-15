@@ -1,5 +1,7 @@
 module.exports.config = 
     {
+        api_key: process.env.TMDB_KEY,
+        api_token: process.env.TMDB_TOKEN,
         baseURL: "https://api.themoviedb.org/3",
         images:
             {

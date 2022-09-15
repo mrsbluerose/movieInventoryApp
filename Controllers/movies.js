@@ -67,7 +67,7 @@ const TMDB = require('../api/tmdb');
 // }
 
 module.exports.searchMovie = async (req,res) => {
-    const movieTitle = 
+    const movie = 
 
 }
 
