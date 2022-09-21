@@ -70,9 +70,11 @@ const axios = require('axios');
 module.exports.searchMovie = async (req,res) => {
     const title = req.body.title;
     const searchTerm = title.replace(/ /g, '%');
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=36b5ba263fac78da8136e35b4b966263&language=en-US&query=${searchTerm}&page=1&include_adult=false&year=1986`;
+    let url = `https://api.themoviedb.org/3/search/movie?api_key=36b5ba263fac78da8136e35b4b966263&query=${searchTerm}&include_adult=false`;
     const movie = await axios.get(url);
-    console.log(movie.data.results[0].title);
+    //console.log(movie.data.results[0].title);
+    const movieList = (movie.data.results);
+    console.log(movieList);
     res.redirect(`/lists/`);
 }
 
