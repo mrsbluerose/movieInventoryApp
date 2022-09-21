@@ -1,11 +1,14 @@
 <% layout('layouts/boilerplate') %>
-    <h1>Lists</h1>
-    <div>
-        <a href="/lists/new">Add List</a>
+<div class="row">
+    <div class="col-6">
+        <h1>Lists</h1>
+        <div>
+            <a href="/lists/new">Add List</a>
+        </div>
+        <ul>
+            <% for (let list of lists) {%>
+            <li><a href="/lists/<%= list._id %>"><%= list.listTitle %></a></li>
+            <% }%>
+        </ul>
     </div>
-    <ul>
-        <% for (let list of lists) {%>
-        <li><a href="/lists/<%= list._id %>"><%= list.listTitle %></a></li>
-        <% }%>
-    </ul>
-    
+</div>

@@ -75,7 +75,7 @@ module.exports.searchMovie = async (req,res) => {
     //console.log(movie.data.results[0].title);
     const movieList = (movie.data.results);
     console.log(movieList);
-    res.redirect(`/lists/`);
+    res.render(`movies/search`, { movieList } );
 }
 
 module.exports.addMovie = async (req, res) => {

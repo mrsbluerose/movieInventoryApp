@@ -1,0 +1,7 @@
+<% layout('layouts/boilerplate') %>
+    <h1>results:</h1>
+    <ul>
+        <% for (let movie of movieList) {%>
+        <li><%= movie.title%></a></li>
+        <% }%>
+    </ul>
