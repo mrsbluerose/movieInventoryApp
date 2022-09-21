@@ -24,7 +24,7 @@ const { isLoggedIn, validateMovie, isMovieAuthor } = require('../middleware');
 //router.get('/search', catchAsync(movies.search));
 
 //router.post('/', isLoggedIn, validateMovie, catchAsync(movies.addMovie)); /////temp change to search
-router.get('/', isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie)); ///// temp
+router.post('/', /*isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie)); ///// temp
 
 router.delete('/:movieId', isLoggedIn, isMovieAuthor, catchAsync(movies.deleteMovie));
 

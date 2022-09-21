@@ -27,7 +27,9 @@
     <% if(currentUser) { %>
 
       <h2>search Movie</h2>
-      <form class="mb-3" action="/lists/<%= list._id %>/movies" method="GET" novalidate>
+      <form class="mb-3" action="/movies" method="POST" novalidate>
+        <label for="title">Movie Title</label>
+        <input type="text" name="title" id="title">
         <button class="btn btn-success">Search</button>
       </form>
 

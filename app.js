@@ -15,6 +15,7 @@ const methodOverride = require('method-override');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+
 const User = require('./models/user');
 
 const userRoutes = require('./routes/users');
@@ -71,7 +72,7 @@ app.use((req, res, next) => {
     next();
 })
 
-//app.use('/movies', movieRoutes);
+app.use('/movies', movieRoutes);
 //app.use('/movies/:id/personalReviews', personalReviewRoutes);
 app.use('/', userRoutes);
 app.use('/lists', listRoutes);

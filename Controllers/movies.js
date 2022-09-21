@@ -68,10 +68,12 @@ const axios = require('axios');
 // }
 
 module.exports.searchMovie = async (req,res) => {
-    const { movieTitle } = req.params;
-    let url = "https://api.themoviedb.org/3/search/movie?api_key=36b5ba263fac78da8136e35b4b966263&language=en-US&query=Top%20Gun&page=1&include_adult=false&year=1986";
+    const title = req.body.title;
+    const searchTerm = title.replace(/ /g, '%');
+    let url = `https://api.themoviedb.org/3/search/movie?api_key=36b5ba263fac78da8136e35b4b966263&language=en-US&query=${searchTerm}&page=1&include_adult=false&year=1986`;
     const movie = await axios.get(url);
     console.log(movie.data.results[0].title);
+    res.redirect(`/lists/`);
 }
 
 module.exports.addMovie = async (req, res) => {
