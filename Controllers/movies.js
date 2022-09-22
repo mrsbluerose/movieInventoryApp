@@ -68,7 +68,8 @@ const axios = require('axios');
 // }
 
 module.exports.searchMovie = async (req,res) => {
-    const title = req.body.title;
+    console.log(req.params); ///////////can't get title from params or body with get
+    const title = req.params.title;
     const searchTerm = title.replace(/ /g, '%');
     let url = `https://api.themoviedb.org/3/search/movie?api_key=36b5ba263fac78da8136e35b4b966263&query=${searchTerm}&include_adult=false`;
     const movie = await axios.get(url);
@@ -90,6 +91,18 @@ module.exports.addMovie = async (req, res) => {
     req.flash('success', 'New review added!');
     res.redirect(`/lists/${list._id}`);
 }
+
+// module.exports.addMovie = async (req, res) => {
+//     const { id } = req.params;
+//     const list = await List.findById(id);
+//     const movie = new Movie(req.body.movie);
+//     movie.movieAuthor = req.user._id;
+//     list.listOfMovies.push(movie);
+//     await movie.save();
+//     await list.save();
+//     req.flash('success', 'New review added!');
+//     res.redirect(`/lists/${list._id}`);
+// }
 
 module.exports.deleteMovie = async (req, res) => {
     const { id, movieId } = req.params;
