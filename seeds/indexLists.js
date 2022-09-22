@@ -6,7 +6,7 @@ const PersonalReview = require('../models/personalReview');
 const User = require('../models/user');
 const List = require('../models/list');
 
-mongoose.connect('mongodb://localhost:27017/movie-inventory-lists');
+mongoose.connect('mongodb://localhost:27017/movie-lists');
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {

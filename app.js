@@ -23,7 +23,7 @@ const listRoutes = require('./routes/lists');
 const movieRoutes = require('./routes/movies');
 const personalReviewRoutes = require('./routes/personalReviews');
 
-mongoose.connect('mongodb://localhost:27017/movie-inventory-lists');
+mongoose.connect('mongodb://localhost:27017/movie-lists');
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
