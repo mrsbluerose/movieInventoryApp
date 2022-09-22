@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const Movie = require('../models/movie');
-const PersonalReview = require('../models/personalReview');
+//const PersonalReview = require('../models/personalReview');
 const User = require('../models/user');
 const List = require('../models/list');
 
@@ -16,7 +16,7 @@ db.once("open", () => {
 //The following function deletes the Movies, Personal Reviews and Users collections. It creates a new user and 5 movie documents with that user as the author, a title, a lorem ipsum description and no reviews. User email, username and password = 'seed'.
 const seedDB = async () => {
     await Movie.deleteMany({});
-    await PersonalReview.deleteMany({});
+    //await PersonalReview.deleteMany({});
     await User.deleteMany({});
     await List.deleteMany({});
     const user = new User({ email: 'seed', username: 'seed' });

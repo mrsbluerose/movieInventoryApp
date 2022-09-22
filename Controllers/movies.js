@@ -74,8 +74,9 @@ module.exports.searchMovie = async (req,res) => {
     const movie = await axios.get(url);
     //console.log(movie.data.results[0].title);
     const movieList = (movie.data.results);
-    console.log(movieList);
-    res.render(`movies/search`, { movieList } );
+    console.log('from movie controller: ', movieList);
+    const userLists = await List.find({listAuthor: req.user._id});
+    res.render(`movies/search`, { movieList , userLists} );
 }
 
 module.exports.addMovie = async (req, res) => {
