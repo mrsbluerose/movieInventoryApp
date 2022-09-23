@@ -4,6 +4,7 @@ const movies = require('../controllers/movies');
 const catchAsync = require('../utils/catchAsync');
 //const Movie = require('../models/movie');
 const { isLoggedIn, validateMovie, isMovieAuthor } = require('../middleware');
+const { Router } = require('express');
 
 
 // router.route('/')
@@ -23,11 +24,13 @@ const { isLoggedIn, validateMovie, isMovieAuthor } = require('../middleware');
 //router.post('/', isLoggedIn, catchAsync(movies.addMovie));
 //router.get('/search', catchAsync(movies.search));
 
-router.post('/', /*isLoggedIn, validateMovie,*/ catchAsync(movies.addMovie)); /////temp change to search
+// router.post('/', /*isLoggedIn, validateMovie,*/ catchAsync(movies.addMovie)); /////temp change to search
 
-//////////figure out get and post for search and addmovie //////////
+// router.post('/', /*isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie)); ///// temp
 
-router.post('/', /*isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie)); ///// temp
+router.route('/')
+    .post(/*isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie))
+    .put(/*isLoggedIn, validateMovie,*/ catchAsync(movies.addMovie))
 
 router.delete('/:movieId', isLoggedIn, isMovieAuthor, catchAsync(movies.deleteMovie));
 

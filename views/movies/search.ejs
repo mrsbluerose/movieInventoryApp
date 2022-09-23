@@ -1,31 +1,32 @@
 <% layout('layouts/boilerplate') %>
 <h1>results:</h1>
 
+<% if(movieList && movieList.length > 0) { %>
+<% for(let movie of movieList) { %>
 
-<form action="/">
-    <% if(movieList && movieList.length > 0) { %>
-    <% for(let movie of movieList) { %>
-    <div class="col-6">
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start" alt="...">
+<div class="col-6">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="..." class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= movie.title %></h5>
+                    <p class="card-text"><%= movie.overview %></p>
                 </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= movie.title %></h5>
-                        <p class="card-text"><%= movie.overview %></p>
-                    </div>
 
-                    <div class="card-footer text-muted">
-                        <!-- figure out get and post for search and add -->
-                    </div>
-
+                <div class="card-footer text-muted">
+                    <form action="/lists/<%=listId%>/movies?_method=PUT" method="POST">
+                        <input type="hidden" name="topic" value="<%= movie %>" />
+                        <button class="btn btn-success">Add</button>
+                    </form>
                 </div>
+
             </div>
         </div>
     </div>
-    <% } %>
-    <% } %>
+</div>
 
-</form>
+<% } %>
+<% } %>
