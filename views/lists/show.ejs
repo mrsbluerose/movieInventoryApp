@@ -47,7 +47,7 @@
   <div class="col-6"> 
     <% if(currentUser) { %>
     <h1>Add Movies</h1>
-    <form action="/movies" method="GET">
+    <form action="/movies" method="POST">
       <input type="text" name="title" placeholder="Search titles" id="title">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>

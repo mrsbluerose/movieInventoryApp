@@ -27,7 +27,7 @@ router.post('/', /*isLoggedIn, validateMovie,*/ catchAsync(movies.addMovie)); //
 
 //////////figure out get and post for search and addmovie //////////
 
-router.get('/', /*isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie)); ///// temp
+router.post('/', /*isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie)); ///// temp
 
 router.delete('/:movieId', isLoggedIn, isMovieAuthor, catchAsync(movies.deleteMovie));
 
