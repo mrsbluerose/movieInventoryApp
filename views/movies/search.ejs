@@ -3,7 +3,6 @@
 
 <% if(movieList && movieList.length > 0) { %>
 <% for(let movie of movieList) { %>
-
 <div class="col-6">
     <div class="card mb-3" style="max-width: 540px;">
         <div class="row g-0">
@@ -18,7 +17,7 @@
 
                 <div class="card-footer text-muted">
                     <form action="/lists/<%=listId%>/movies?_method=PUT" method="POST">
-                        <input type="hidden" name="topic" value="<%= movie %>" />
+                        <input type="hidden" name="movie" value="<%= movie %>" />
                         <button class="btn btn-success">Add</button>
                     </form>
                 </div>

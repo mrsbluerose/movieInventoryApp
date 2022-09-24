@@ -81,15 +81,12 @@ module.exports.searchMovie = async (req,res) => {
 }
 
 module.exports.addMovie = async (req, res) => {
-    //console.log('params from movie controller add movie: ', req.params)
-    console.log('body from movie controller add movie: ', req.body.movie)
     const { id } = req.params;
     const list = await List.findById(id);
-    console.log('from movie controller add movie: ', list);
-    const movie = new Movie(req.body.movie);
-    movie.movieAuthor = req.user._id;
-    list.listOfMovies.push(movie);
-    await movie.save();
+    const newMovie = new Movie(req.body.movie);
+    newMovie.movieAuthor = req.user._id;
+    list.listOfMovies.push(newMovie);
+    await newMovie.save();
     await list.save();
     req.flash('success', 'Movie added!');
     res.redirect(`/lists/${list._id}`);
