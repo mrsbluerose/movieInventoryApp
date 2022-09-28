@@ -1,5 +1,6 @@
 const { register } = require('../models/list');
 const List = require('../models/list');
+const User = require('../models/user');
 //const Movie = require('../models/movie');
 
 module.exports.index = async (req, res) => {
@@ -29,7 +30,12 @@ module.exports.createList = async (req, res, next) => {
 }
 
 module.exports.showList = async (req, res,) => {
-    const list = await List.findById(req.params.id).populate({ path:'listOfMovies' }).populate('listAuthor');
+    const list = await List.findById(req.params.id).populate({ 
+            path: 'listOfMovies',
+            populate: {
+                path: 'movieAuthor'
+            }
+        }).populate('listAuthor' );
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');

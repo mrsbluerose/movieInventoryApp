@@ -1,31 +1,38 @@
 <% layout('layouts/boilerplate') %>
-<h1>results:</h1>
 
-<% if(movieList && movieList.length > 0) { %>
-<% for(let movie of movieList) { %>
-<div class="col-6">
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="..." class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title"><%= movie.title %></h5>
-                    <p class="card-text"><%= movie.overview %></p>
+<div class="mb-3">
+    <form action="/lists/<%=listId%>/movies?_method=PUT" method="POST">
+        <% if(movieList && movieList.length > 0) { %>
+        <h1>Search results for <% title %> </h1>
+        <p>Select movies to add and hit submit at the bottom of the list.
+        <p>
+            <% for(let movie of movieList) { %>
+        <div class="col-6">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="..." class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= movie.title %></h5>
+                            <p class="card-text"><%= movie.overview %></p>
+                        </div>
+
+                        <div class="card-footer text-muted">
+                            <input class="form-check-input" type="checkbox" name="movieId[]" value="<%= movie.id %>"
+                                id="addMovieCheckbox">
+                            <label class="form-check-label" for="addMovieCheckBox">Add Movie</label>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="card-footer text-muted">
-                    <form action="/lists/<%=listId%>/movies?_method=PUT" method="POST">
-                        <input type="hidden" name="movieId" value="<%= movie.id %>" />
-                        <button class="btn btn-success">Add</button>
-                    </form>
-                </div>
-
             </div>
         </div>
-    </div>
+        <% } %>
+        <% } else {%>
+        <h1>No results for <% title %> </h1>
+        <p>Please try your search again.</p>
+        <% } %>
+        <button class="btn btn-success">Submit</button>
+    </form>
 </div>
-
-<% } %>
-<% } %>
