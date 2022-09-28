@@ -83,13 +83,18 @@ module.exports.searchMovie = async (req,res) => {
 module.exports.addMovie = async (req, res) => {
     const { id } = req.params;
     const list = await List.findById(id);
-    const newMovie = new Movie(req.body.movie);
+    const { movieId } = req.body;
+    console.log('from controller add movie: ', movieId);/////
+    let url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=36b5ba263fac78da8136e35b4b966263&language=en-US`
+    const movieSearch = await axios.get(url);
+    console.log('from controller add movie: ', movieSearch.data);/////
+    const newMovie = new Movie(movieSearch.data);
     newMovie.movieAuthor = req.user._id;
     list.listOfMovies.push(newMovie);
     await newMovie.save();
     await list.save();
     req.flash('success', 'Movie added!');
-    res.redirect(`/lists/${list._id}`);
+    //res.redirect(`/lists/${list._id}`);
 }
 
 // module.exports.addMovie = async (req, res) => {
