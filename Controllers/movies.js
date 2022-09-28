@@ -68,24 +68,23 @@ const axios = require('axios');
 // }
 
 module.exports.searchMovie = async (req, res) => {
+    const tmdb = new TMDB();
     const title = req.body.title;
     const listId = req.params.id;
     const searchTerm = title.replace(/ /g, '%');
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=36b5ba263fac78da8136e35b4b966263&query=${searchTerm}&include_adult=false`;
+    let url = `${tmdb.baseURL}/search/movie?api_key=${tmdb.api_key}&query=${searchTerm}&include_adult=false`;
     const movieSearch = await axios.get(url);
-    //console.log(movie.data.results[0].title);
     const movieList = (movieSearch.data.results);
-    //console.log('from movie controller: ', movieList);
-    //const userLists = await List.find({listAuthor: req.user._id});
     res.render(`movies/search`, { movieList, listId, title });
 }
 
 module.exports.addMovie = async (req, res) => {
+    const tmdb = new TMDB();
     const { id } = req.params;
     const list = await List.findById(id);
     const { movieId } = req.body;
     for (newMovieId of movieId) {
-        let url = `https://api.themoviedb.org/3/movie/${newMovieId}?api_key=36b5ba263fac78da8136e35b4b966263&language=en-US`
+        let url = `${tmdb.baseURL}/movie/${newMovieId}?api_key=${tmdb.api_key}&language=en-US`
         const movieSearch = await axios.get(url);
         const newMovie = new Movie(movieSearch.data);
         newMovie.movieAuthor = req.user._id;
@@ -94,7 +93,7 @@ module.exports.addMovie = async (req, res) => {
         await list.save();
     }
     req.flash('success', 'Movie added!');
-    //res.redirect(`/lists/${list._id}`);
+    res.redirect(`/lists/${list._id}`);
 }
 
 // module.exports.addMovie = async (req, res) => {
