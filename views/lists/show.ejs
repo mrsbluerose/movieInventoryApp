@@ -1,11 +1,11 @@
 <% layout('layouts/boilerplate') %>
 <div class="row">
-  <div class="mb-3">
+  <div class="mb-3 col-8">
     <h1><%=list.listTitle%></h1>
     <p><%=list.listDescription%></p>
     <p>Created by <%=list.listAuthor.username%></p>
     <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
-    <div class="card-body">
+    <div class="mb-3">
       <a href="/lists/<%= list._id %>/edit" class="card-link btn btn-info">Edit</a>
       <form class="d-inline" action="/lists/<%=list._id%>?_method=DELETE" method="POST">
         <button class="btn btn-danger">Delete</button>
@@ -13,7 +13,17 @@
     </div>
     <% } %>
   </div>
-
+  <div class="col-4"> 
+    <% if(currentUser) { %>
+    <form action="/lists/<%= list._id %>/movies" method="POST">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Add movie title" name="title" id="title" aria-label="movie title search" aria-describedby="button-addon2">
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+      </div>
+    </form>
+    <% } %>
+  </div>
+</div>
 
   <% if(list.listOfMovies.length > 0) { %>
   <% for(let movie of list.listOfMovies) { %>
@@ -42,15 +52,4 @@
   </div>
   <% } %>
   <% } %>
-
-  <!-- figure out get and post for search and add -->
-  <div class="col-6"> 
-    <% if(currentUser) { %>
-    <h1>Add Movies</h1>
-    <form action="/lists/<%= list._id %>/movies" method="POST">
-      <input type="text" name="title" placeholder="Search titles" id="title">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-    <% } %>
-  </div>
-</div>
+  
