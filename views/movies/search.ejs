@@ -7,11 +7,11 @@
         <p>Select movies to add and hit submit at the bottom of the list.
         <p>
             <% for(let movie of movieList) { %>
-        <div class="col-6">
-            <div class="card mb-3" style="max-width: 540px;">
+        <div>
+            <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="..." class="img-fluid rounded-start" alt="...">
+                        <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[1]%>/<%-movie.poster_path%>" class="img-fluid rounded-start" alt="<%=movie.title%> poster">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">

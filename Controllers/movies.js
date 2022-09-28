@@ -1,6 +1,6 @@
 const Movie = require('../models/movie');
 const List = require('../models/list');
-const TMDB = require('../api/tmdb');
+const TMDB = require('../api/tmdbConfig');
 const axios = require('axios');
 
 // module.exports.index = async (req, res) => {
@@ -73,9 +73,10 @@ module.exports.searchMovie = async (req, res) => {
     const listId = req.params.id;
     const searchTerm = title.replace(/ /g, '%');
     let url = `${tmdb.baseURL}/search/movie?api_key=${tmdb.api_key}&query=${searchTerm}&include_adult=false`;
+    //let imageUrlBase = `${tmdb.images.base_url}/${tmdb.images.poster_sizes[1]}/`
     const movieSearch = await axios.get(url);
     const movieList = (movieSearch.data.results);
-    res.render(`movies/search`, { movieList, listId, title });
+    res.render(`movies/search`, { movieList, listId, title, tmdb });
 }
 
 module.exports.addMovie = async (req, res) => {
