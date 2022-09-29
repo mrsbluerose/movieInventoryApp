@@ -4,20 +4,24 @@
     <h1><%=list.listTitle%></h1>
     <p><%=list.listDescription%></p>
     <p>Created by <%=list.listAuthor.username%></p>
-    <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
+  
     <div class="mb-3">
+      <a href="/lists" class="card-link btn btn-primary">Back</a>
+      <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
       <a href="/lists/<%= list._id %>/edit" class="card-link btn btn-info">Edit</a>
       <form class="d-inline" action="/lists/<%=list._id%>?_method=DELETE" method="POST">
         <button class="btn btn-danger">Delete</button>
       </form>
+      <% } %>
     </div>
-    <% } %>
+    
   </div>
-  <div class="col-4"> 
+  <div class="col-4">
     <% if(currentUser) { %>
     <form action="/lists/<%= list._id %>/movies" method="POST">
       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Add movie title" name="title" id="title" aria-label="movie title search" aria-describedby="button-addon2">
+        <input type="text" class="form-control" placeholder="Add movie title" name="searchTitle" id="searchTitle"
+          aria-label="movie title search" aria-describedby="button-addon2">
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
       </div>
     </form>
@@ -25,31 +29,37 @@
   </div>
 </div>
 
-  <% if(list.listOfMovies.length > 0) { %>
-  <% for(let movie of list.listOfMovies) { %>
-  <div>
-    <div class="card mb-3">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[1]%>/<%-movie.poster_path%>" class="img-fluid rounded-start" alt="<%=movie.title%> poster">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
+<% if(list.listOfMovies.length > 0) { %>
+<% for(let movie of list.listOfMovies) { %>
+<div>
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <a href="https://www.themoviedb.org/movie/<%=movie.id%>-<%=movie.title%>?language=en-US" target="_blank" rel="noopener noreferrer">
+          <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[2]%>/<%-movie.poster_path%>"
+            class="img-fluid rounded-start" alt="<%=movie.title%> poster">
+        </a>
+      </div>
+      <div class="col-md-8 d-flex flex-column" >
+        <div class="card-body">
+          <a href="https://www.themoviedb.org/movie/<%=movie.id%>-<%=movie.title%>?language=en-US" target="_blank" rel="noopener noreferrer">
             <h5 class="card-title"><%= movie.title %></h5>
-            <p class="card-text"><%= movie.overview %></p>
-            <p class="card-text"><small class="text-muted">Submitted by <%= movie.movieAuthor.username %></small></p>
-          </div>
-          <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
-          <div class="card-footer text-muted">
-            <form action="/lists/<%=list._id%>/movies/<%=movie._id%>?_method=DELETE" method="POST">
-              <button class="btn btn-sm btn-danger">Delete</button>
-            </form>
-          </div>
-          <% } %>
+          </a>
+          <p class="card-text"><%= movie.overview %></p>
+          <p class="card-text"><small class="text-muted">Submitted by <%= movie.movieAuthor.username %></small></p>
         </div>
+        <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
+        <div class="card-footer mt-auto d-flex flex-column">
+          <div class="align-self-end">
+          <form action="/lists/<%=list._id%>/movies/<%=movie._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-sm btn-danger">Delete</button>
+          </form>
+        </div>
+        </div>
+        <% } %>
       </div>
     </div>
   </div>
-  <% } %>
-  <% } %>
-  
+</div>
+<% } %>
+<% } %>

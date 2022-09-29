@@ -69,14 +69,16 @@ const axios = require('axios');
 
 module.exports.searchMovie = async (req, res) => {
     const tmdb = new TMDB();
-    const title = req.body.title;
+    const searchTitle = req.body.searchTitle;
     const listId = req.params.id;
-    const searchTerm = title.replace(/ /g, '%');
+    const list = await List.findById(listId);
+    const listTitle = list.listTitle;
+    const searchTerm = searchTitle.replace(/ /g, '%');
     let url = `${tmdb.baseURL}/search/movie?api_key=${tmdb.api_key}&query=${searchTerm}&include_adult=false`;
     //let imageUrlBase = `${tmdb.images.base_url}/${tmdb.images.poster_sizes[1]}/`
     const movieSearch = await axios.get(url);
     const movieList = (movieSearch.data.results);
-    res.render(`movies/search`, { movieList, listId, title, tmdb });
+    res.render(`movies/search`, { movieList, listId, listTitle, searchTitle, tmdb });
 }
 
 module.exports.addMovie = async (req, res) => {
@@ -111,7 +113,7 @@ module.exports.addMovie = async (req, res) => {
 
 module.exports.deleteMovie = async (req, res) => {
     const { id, movieId } = req.params;
-    await List.findByIdAndUpdate(id, { $pull: { movieList: movieId } });
+    await List.findByIdAndUpdate(id, { $pull: { listOfMovies: movieId } });
     await Movie.findByIdAndDelete(movieId);
     req.flash('success', 'Successfully deleted movie')
     res.redirect(`/lists/${id}`);
