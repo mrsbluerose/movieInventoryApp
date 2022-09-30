@@ -5,17 +5,24 @@ const TMDB = require('../api/tmdbConfig');
 //const Movie = require('../models/movie');
 
 module.exports.index = async (req, res) => {
-    const unsortedLists = await List.find({});
-    const lists = unsortedLists.sort((a,b) => {
-        if (a.listTitle < b.listTitle) {
-            return -1;
-        }
-        if (a.listTitle > b.listTitle) {
-            return 1;
-        }
-        return 0;
-    });
-    res.render('lists/index', { lists })
+    const tmdb = new TMDB();
+    const unsortedLists = await List.find({})
+        .populate({
+            path: 'listOfMovies',
+            populate: {
+                path: 'poster_path'
+            }
+        }).populate('listAuthor' );
+    // const lists = unsortedLists.sort((a,b) => {
+    //     if (a.listTitle < b.listTitle) {
+    //         return -1;
+    //     }
+    //     if (a.listTitle > b.listTitle) {
+    //         return 1;
+    //     }
+    //     return 0;
+    // });
+    res.render('lists/index', { unsortedLists, tmdb })
 }
 
 module.exports.renderNewForm = (req, res) => {

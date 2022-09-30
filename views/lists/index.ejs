@@ -1,19 +1,19 @@
 <% layout('layouts/boilerplate') %>
+
 <div class="row">
     <div class="col-6">
-        <h1>Lists</h1>
-        <div>
-            <a href="/lists/new">Add List</a>
-        </div>
+        <h1>My Lists</h1>
         <ul>
-            <% for (let list of lists) {%>
-            <li><a href="/lists/<%= list._id %>"><%= list.listTitle %></a></li>
-
+            <% for (let list of unsortedLists) {%>
             <div class="card mb-3">
                 <div class="row g-0">
                   <div class="col-md-4">
+                    <% if(list.listOfMovies.length > 0) { %>
                       <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[2]%>/<%-list.listOfMovies[0].poster_path%>"
                         class="img-fluid rounded-start" alt="<%=list.title%> poster">
+                        <% } else { %>
+                          <img src="../../public/images/film.jpeg">
+                          <% } %> 
                     </a>
                   </div>
                   <div class="col-md-8 d-flex flex-column" >
@@ -21,7 +21,7 @@
                         <a href="/lists/<%= list._id %>">
                         <h5 class="card-title"><%= list.listTitle %></h5>
                       </a>
-                      <p class="card-text"><%= listDescription %></p>
+                      <p class="card-text"><%= list.listDescription %></p>
                       <p class="card-text"><small class="text-muted">Created by <%= list.listAuthor.username %></small></p>
                     </div>
                   </div>
