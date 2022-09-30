@@ -1,39 +1,34 @@
 <% layout('layouts/boilerplate') %>
+<h1>My Lists</h1>
 
 <div class="row">
-    <div class="col-6">
-        <h1>My Lists</h1>
-        <ul>
-            <% for (let list of unsortedLists) {%>
-            <div class="card mb-3">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <% if(list.listOfMovies.length > 0) { %>
-                      <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[2]%>/<%-list.listOfMovies[0].poster_path%>"
-                        class="img-fluid rounded-start" alt="<%=list.title%> poster">
-                        <% } else { %>
-                          <img src="../../public/images/film.jpeg">
-                          <% } %> 
-                    </a>
-                  </div>
-                  <div class="col-md-8 d-flex flex-column" >
-                    <div class="card-body">
-                        <a href="/lists/<%= list._id %>">
-                        <h5 class="card-title"><%= list.listTitle %></h5>
-                      </a>
-                      <p class="card-text"><%= list.listDescription %></p>
-                      <p class="card-text"><small class="text-muted">Created by <%= list.listAuthor.username %></small></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-
-
-
-
-            <% }%>
-        </ul>
+  <div class="col-6">
+    <% for (let list of lists) {%>
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="card-body">
+          <a href="/lists/<%= list._id %>">
+            <h5 class="card-title"><%= list.listTitle %></h5>
+          </a>
+          <p class="card-text"><%= list.listDescription %></p>
+          <p class="card-text"><small class="text-muted">Created by <%= list.listAuthor.username %></small></p>
+        </div>
+      </div>
+      <% if(list.listOfMovies.length > 0) { %>
+      <div class="card-body">
+        <div class="horizontal-scrollable">
+          <div class="row text-center">
+            <% for(let moviePoster of list.listOfMovies) { %>
+            <div class="col-xs-4">
+              <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[0]%>/<%-moviePoster.poster_path%>"
+                alt="<%=list.title%> poster">
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+      <% }%>
     </div>
+    <% }%>
+  </div>
 </div>

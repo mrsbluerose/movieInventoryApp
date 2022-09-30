@@ -14,7 +14,8 @@ const ListSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Movie'
         }
-    ]
+    ],
+    listMoviePoster: String
 });
 
 //removes all movies associated with a list being deleted

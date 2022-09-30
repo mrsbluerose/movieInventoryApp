@@ -13,16 +13,17 @@ module.exports.index = async (req, res) => {
                 path: 'poster_path'
             }
         }).populate('listAuthor' );
-    // const lists = unsortedLists.sort((a,b) => {
-    //     if (a.listTitle < b.listTitle) {
-    //         return -1;
-    //     }
-    //     if (a.listTitle > b.listTitle) {
-    //         return 1;
-    //     }
-    //     return 0;
-    // });
-    res.render('lists/index', { unsortedLists, tmdb })
+    const lists = unsortedLists.sort((a,b) => {
+        if (a.listTitle < b.listTitle) {
+            return -1;
+        }
+        if (a.listTitle > b.listTitle) {
+            return 1;
+        }
+        return 0;
+        
+    });
+    res.render('lists/index', { lists, tmdb })
 }
 
 module.exports.renderNewForm = (req, res) => {
@@ -37,7 +38,7 @@ module.exports.createList = async (req, res, next) => {
     res.redirect(`/lists/${list._id}`)
 }
 
-module.exports.showList = async (req, res,) => {
+module.exports.showList = async (req, res) => {
     const tmdb = new TMDB();
     const list = await List.findById(req.params.id).populate({ 
             path: 'listOfMovies',
