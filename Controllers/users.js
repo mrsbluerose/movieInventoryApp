@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const List = require('../models/list');
 
 module.exports.renderRegister = (req, res) => {
     res.render('users/register');
@@ -37,4 +38,16 @@ module.exports.logout = function(req, res, next) { //changed to get method and n
         req.flash('success', "Goodbye!");
         res.redirect('/lists');
     });
+}
+
+module.exports.addCollaborator = async (req, res) => {
+    const { id } = req.params;
+    const list = await List.findById(id);
+    const { userId } = req.body;
+    const newCollaborator = await User.findById(userId);
+    list.listOfCollaborators.push(newCollaborator);
+    await list.save();
+
+    req.flash('success', 'User added!');
+    res.redirect(`/lists/${list._id}`);
 }

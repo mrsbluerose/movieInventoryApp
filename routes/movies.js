@@ -29,8 +29,8 @@ const { Router } = require('express');
 // router.post('/', /*isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie)); ///// temp
 
 router.route('/')
-    .post(isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie))
-    .put(isLoggedIn, /*validateMovie,*/ catchAsync(movies.addMovie))
+    .post(isLoggedIn, catchAsync(movies.searchMovie))
+    .put(isLoggedIn, catchAsync(movies.addMovie))
 
 router.delete('/:movieId', isLoggedIn, isMovieAuthor, catchAsync(movies.deleteMovie));
 

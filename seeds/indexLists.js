@@ -28,30 +28,35 @@ const seedDB = async () => {
             listTitle: 'What we own',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
+            listOfCollaborators: [],
             listOfMovies: []
         },
         {
             listTitle: 'Bad Movie Night',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
+            listOfCollaborators: [],
             listOfMovies: []
         },
         {
             listTitle: 'Show the Kiddo',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
+            listOfCollaborators: [],
             listOfMovies: []
         },
         {
             listTitle: 'Chick Flicks',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
+            listOfCollaborators: [],
             listOfMovies: []
         },
         {
             listTitle: 'Date Night',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
+            listOfCollaborators: [],
             listOfMovies: []
         }
 

@@ -12,6 +12,18 @@ module.exports.isLoggedIn = (req, res, next) => {
     next();
 }
 
+module.exports.isCollaborator = async (req, res, next) => {
+    const { id, listId } = req.params;
+    const list = await List.findById(listId);
+    const collaborators = list.listOfCollaborators;
+    if (!list.listAuthor.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/lists/${id}`);
+    } else if(collaborators.includes({})
+    }
+    next();
+}
+
 module.exports.validateMovie = (req, res, next) => {
     const { error } = movieSchema.validate(req.body);
     if (error) {
@@ -21,6 +33,8 @@ module.exports.validateMovie = (req, res, next) => {
         next();
     }
 }
+
+
 
 // module.exports.isAuthor = async (req, res, next) => {
 //     const { id } = req.params;

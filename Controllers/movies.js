@@ -2,6 +2,7 @@ const Movie = require('../models/movie');
 const List = require('../models/list');
 const TMDB = require('../api/tmdbConfig');
 const axios = require('axios');
+const user = require('../models/user');
 
 // module.exports.index = async (req, res) => {
 //     const unsortedMovies = await Movie.find({});
