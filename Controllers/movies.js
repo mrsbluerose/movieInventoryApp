@@ -71,7 +71,7 @@ const user = require('../models/user');
 module.exports.searchMovie = async (req, res) => {
     const tmdb = new TMDB();
     const searchTitle = req.body.searchTitle;
-    const listId = req.params.id;
+    const { listId } = req.params;
     const list = await List.findById(listId);
     const listTitle = list.listTitle;
     const searchTerm = searchTitle.replace(/ /g, '%');
@@ -84,8 +84,8 @@ module.exports.searchMovie = async (req, res) => {
 
 module.exports.addMovie = async (req, res) => {
     const tmdb = new TMDB();
-    const { id } = req.params;
-    const list = await List.findById(id);
+    const { listId } = req.params;
+    const list = await List.findById(listId);
     const { movieId } = req.body;
     for (newMovieId of movieId) {
         let url = `${tmdb.baseURL}/movie/${newMovieId}?api_key=${tmdb.api_key}&language=en-US`
@@ -113,9 +113,9 @@ module.exports.addMovie = async (req, res) => {
 // }
 
 module.exports.deleteMovie = async (req, res) => {
-    const { id, movieId } = req.params;
-    await List.findByIdAndUpdate(id, { $pull: { listOfMovies: movieId } });
+    const { listId , movieId } = req.params;
+    await List.findByIdAndUpdate( listId , { $pull: { listOfMovies: movieId } });
     await Movie.findByIdAndDelete(movieId);
     req.flash('success', 'Successfully deleted movie')
-    res.redirect(`/lists/${id}`);
+    res.redirect(`/lists/${ listId }`);
 }

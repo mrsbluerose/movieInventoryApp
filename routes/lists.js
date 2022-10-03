@@ -10,11 +10,11 @@ router.route('/')
 
 router.get('/new', isLoggedIn, lists.renderNewForm);
 
-router.route('/:id')
+router.route('/:listId')
     .get(catchAsync(lists.showList))
     .put(catchAsync(lists.updateList))
     .delete((lists.deleteList))
 
-router.get('/:id/edit', catchAsync(lists.renderEditForm));
+router.get('/:listId/edit', catchAsync(lists.renderEditForm));
 
 module.exports = router;

@@ -18,7 +18,7 @@ module.exports.isCollaborator = async (req, res, next) => {
     const collaborators = list.listOfCollaborators;
     if (!list.listAuthor.equals(req.user._id) || !collaborators.includes(userId)) {
         req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/lists/${id}`);
+        return res.redirect(`/lists/${listId}`);
     } else {
         next();
     }
@@ -47,35 +47,33 @@ module.exports.validateMovie = (req, res, next) => {
 // }
 
 module.exports.isMovieAuthor = async (req, res, next) => {
-    const { id, movieId } = req.params;
+    const { listId , movieId } = req.params;
     const movie = await Movie.findById(movieId);
     if (!movie.movieAuthor.equals(req.user._id)) {
         req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/lists/${id}`);
+        return res.redirect(`/lists/${listId}`);
     }
     next();
 }
 
-module.exports.isPersonalReviewAuthor = async (req, res, next) => {
-    const { id, personalReviewId } = req.params;
-    const personalReview = await PersonalReview.findById(personalReviewId);
-    if (!personalReview.author.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/movies/${id}`);
-    }
-    next();
-}
+// module.exports.isPersonalReviewAuthor = async (req, res, next) => {
+//     const { id, personalReviewId } = req.params;
+//     const personalReview = await PersonalReview.findById(personalReviewId);
+//     if (!personalReview.author.equals(req.user._id)) {
+//         req.flash('error', 'You do not have permission to do that!');
+//         return res.redirect(`/movies/${id}`);
+//     }
+//     next();
+// }
 
-module.exports.validatePersonalReview = (req, res, next) => {
-    const { error } = personalReviewSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next();
-    }
-}
+// module.exports.validatePersonalReview = (req, res, next) => {
+//     const { error } = personalReviewSchema.validate(req.body);
+//     if (error) {
+//         const msg = error.details.map(el => el.message).join(',')
+//         throw new ExpressError(msg, 400)
+//     } else {
+//         next();
+//     }
+// }
 
-module.exports.testPrint = (req, res, next) => {
-    console.log("req id from router: " + req.params.id)
-}
+

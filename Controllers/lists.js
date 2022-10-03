@@ -40,7 +40,8 @@ module.exports.createList = async (req, res, next) => {
 
 module.exports.showList = async (req, res) => {
     const tmdb = new TMDB();
-    const list = await List.findById(req.params.id).populate({ 
+    const { listId } = req.params;
+    const list = await List.findById(listId).populate({ 
             path: 'listOfMovies',
             populate: {
                 path: 'movieAuthor'
@@ -54,8 +55,8 @@ module.exports.showList = async (req, res) => {
 }
 
 module.exports.renderEditForm = async (req, res) => {
-    const { id } = req.params;
-    const list = await List.findById(id)
+    const { listId } = req.params;
+    const list = await List.findById(listId)
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
@@ -64,15 +65,15 @@ module.exports.renderEditForm = async (req, res) => {
 }
 
 module.exports.updateList = async (req, res) => {
-    const { id } = req.params;
-    const list = await List.findByIdAndUpdate(id, { ...req.body.list });
+    const { listId } = req.params;
+    const list = await List.findByIdAndUpdate(listId, { ...req.body.list });
     req.flash('success', 'Successfully updated list!');
     res.redirect(`/lists/${list._id}`)
 }
 
 module.exports.deleteList = async (req, res) => {
-    const { id } = req.params;
-    await List.findByIdAndDelete(id);
+    const { listId } = req.params;
+    await List.findByIdAndDelete(listId);
     req.flash('success', 'Successfully deleted list')
     res.redirect('/lists');
 }
