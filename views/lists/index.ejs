@@ -16,7 +16,7 @@
       </div>
       <% if(list.listOfMovies.length > 0) { %>
       <div class="card-body">
-          <div class="d-flex flex-row flex-nowrap overflow-scroll">
+          <div class="d-flex flex-row flex-nowrap overflow-auto">
             <% for(let moviePoster of list.listOfMovies) { %>
             <div class="d-flex d-inline-flex col-xs-4 me-2">
               <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[0]%>/<%-moviePoster.poster_path%>"

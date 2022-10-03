@@ -13,15 +13,15 @@ module.exports.isLoggedIn = (req, res, next) => {
 }
 
 module.exports.isCollaborator = async (req, res, next) => {
-    const { id, listId } = req.params;
+    const { userId, listId } = req.params;
     const list = await List.findById(listId);
     const collaborators = list.listOfCollaborators;
-    if (!list.listAuthor.equals(req.user._id)) {
+    if (!list.listAuthor.equals(req.user._id) || !collaborators.includes(userId)) {
         req.flash('error', 'You do not have permission to do that!');
         return res.redirect(`/lists/${id}`);
-    } else if(collaborators.includes({})
+    } else {
+        next();
     }
-    next();
 }
 
 module.exports.validateMovie = (req, res, next) => {
