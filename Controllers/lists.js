@@ -46,12 +46,19 @@ module.exports.showList = async (req, res) => {
             populate: {
                 path: 'movieAuthor'
             }
+        }).populate({ 
+            path: 'listOfCollaborators',
+            populate: {
+                path: 'username'
+            }
         }).populate('listAuthor' );
+        console.log
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
     }
-    res.render('lists/show', { list, tmdb });
+    const users = await User.find({});
+    res.render('lists/show', { list, tmdb, users });
 }
 
 module.exports.renderEditForm = async (req, res) => {

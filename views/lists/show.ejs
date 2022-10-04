@@ -4,7 +4,13 @@
     <h1><%=list.listTitle%></h1>
     <p><%=list.listDescription%></p>
     <p>Created by <%=list.listAuthor.username%></p>
-  
+    <% if(list.listOfCollaborators.length > 0) {%>
+    <p>Collaborators:
+      <% for(collaborator of list.listOfCollaborators) { %>
+      <%= collaborator.username %>,
+      <% } %>
+    </p>
+    <% } %>
     <div class="mb-3">
       <a href="/lists" class="card-link btn btn-primary">Back</a>
       <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
@@ -14,7 +20,7 @@
       </form>
       <% } %>
     </div>
-    
+
   </div>
   <div class="col-4">
     <% if(currentUser) { %>
@@ -25,6 +31,16 @@
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
       </div>
     </form>
+    <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
+    <form action="/<%= list._id %>" method="POST">
+      <select class="form-select" aria-label="collaborator selection list">
+        <% for(let user of users) { %>
+        <option name="userId" value="<%= user._id %>"><%= user.username%></option>
+        <% } %>
+      </select>
+      <button type="submit" class="btn btn-secondary mt-3">Add Collaborator</button>
+    </form>
+    <% } %>
     <% } %>
   </div>
 </div>
@@ -35,14 +51,16 @@
   <div class="card mb-3">
     <div class="row g-0">
       <div class="col-md-4">
-        <a href="https://www.themoviedb.org/movie/<%=movie.id%>-<%=movie.title%>?language=en-US" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.themoviedb.org/movie/<%=movie.id%>-<%=movie.title%>?language=en-US" target="_blank"
+          rel="noopener noreferrer">
           <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[2]%>/<%-movie.poster_path%>"
             class="img-fluid rounded-start" alt="<%=movie.title%> poster">
         </a>
       </div>
-      <div class="col-md-8 d-flex flex-column" >
+      <div class="col-md-8 d-flex flex-column">
         <div class="card-body">
-          <a href="https://www.themoviedb.org/movie/<%=movie.id%>-<%=movie.title%>?language=en-US" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.themoviedb.org/movie/<%=movie.id%>-<%=movie.title%>?language=en-US" target="_blank"
+            rel="noopener noreferrer">
             <h5 class="card-title"><%= movie.title %></h5>
           </a>
           <p class="card-text"><%= movie.overview %></p>
@@ -51,10 +69,10 @@
         <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
         <div class="card-footer mt-auto d-flex flex-column">
           <div class="align-self-end">
-          <form action="/lists/<%=list._id%>/movies/<%=movie._id%>?_method=DELETE" method="POST">
-            <button class="btn btn-sm btn-danger">Delete</button>
-          </form>
-        </div>
+            <form action="/lists/<%=list._id%>/movies/<%=movie._id%>?_method=DELETE" method="POST">
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
         </div>
         <% } %>
       </div>

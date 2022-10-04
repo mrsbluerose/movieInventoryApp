@@ -1,7 +1,7 @@
 const { movieSchema, personalReviewSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError');
 const Movie = require('./models/movie');
-const PersonalReview = require('./models/personalReview');
+//const PersonalReview = require('./models/personalReview');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {

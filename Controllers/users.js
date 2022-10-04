@@ -41,13 +41,14 @@ module.exports.logout = function(req, res, next) { //changed to get method and n
 }
 
 module.exports.addCollaborator = async (req, res) => {
-    const { id } = req.params;
-    const list = await List.findById(id);
+    const { listId } = req.params;
+    const list = await List.findById(listId);
+    
     const { userId } = req.body;
+    console.log(userId);//////////////
     const newCollaborator = await User.findById(userId);
     list.listOfCollaborators.push(newCollaborator);
     await list.save();
-
-    req.flash('success', 'User added!');
+    req.flash('success', 'Collaborator added!');
     res.redirect(`/lists/${list._id}`);
 }

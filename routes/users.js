@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 const passport = require('passport');
 const catchAsync = require('../utils/catchAsync');
 //const User = require('../models/user');
@@ -15,6 +15,6 @@ router.route('/login')
 
 router.get('/logout', users.logout);
 
-router.get('/collaborate', users.addCollaborator);
+router.post('/:listId', users.addCollaborator);
 
 module.exports = router;
