@@ -57,7 +57,13 @@ module.exports.showList = async (req, res) => {
         return res.redirect('/lists');
     }
     const users = await User.find({});
-    res.render('lists/show', { list, tmdb, users });
+    let isCollaborator = false;
+    let isAuthor = false;
+    if(req.user){
+        isCollaborator = list.listOfCollaborators.some(e => e.username === req.user.username);
+        isAuthor = list.listAuthor.username === req.user.username;
+    }
+    res.render('lists/show', { list, tmdb, users, isCollaborator, isAuthor });
 }
 
 module.exports.renderEditForm = async (req, res) => {

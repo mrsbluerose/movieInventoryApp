@@ -5,17 +5,18 @@
     <p><%=list.listDescription%></p>
     <p>Created by <%=list.listAuthor.username%></p>
     <% if(list.listOfCollaborators.length > 0) {%>
-    <p>Collaborators:
+    <div class="d-flex flex-row mb-3">
+      Collaborators:
       <% for(collaborator of list.listOfCollaborators) { %>
-      <div class="me-2">
+      <div class="mx-2">
         <%= collaborator.username %>
       </div>
       <% } %>
-    </p>
+    </div>
     <% } %>
     <div class="mb-3">
       <a href="/lists" class="card-link btn btn-primary">Back</a>
-      <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
+      <% if (currentUser && isAuthor) { %>
       <a href="/lists/<%= list._id %>/edit" class="card-link btn btn-info">Edit</a>
       <form class="d-inline" action="/lists/<%=list._id%>?_method=DELETE" method="POST">
         <button class="btn btn-danger">Delete</button>
@@ -26,8 +27,9 @@
   </div>
   <div class="col-4">
     <div>
-    <h3>Add Movies</h3>
-    <% if(currentUser) { %>
+      <% if (currentUser) {%>
+      <% if(isAuthor || isCollaborator) { %>
+      <h3>Add Movies</h3>
       <form action="/lists/<%= list._id %>/movies" method="POST">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Add movie title" name="searchTitle" id="searchTitle"
@@ -35,8 +37,9 @@
           <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
       </form>
     </div>
-    <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
-      <h3>Add Collaborators</h3>
+    <% } %>
+    <% if (isAuthor) { %>
+    <h3>Add Collaborators</h3>
     <form class="d-flex flex-row" action="/<%= list._id %>" method="POST">
       <select name="userId" class="form-select" aria-label="collaborator selection list">
         <% for(let user of users) { %>
@@ -71,7 +74,7 @@
           <p class="card-text"><%= movie.overview %></p>
           <p class="card-text"><small class="text-muted">Submitted by <%= movie.movieAuthor.username %></small></p>
         </div>
-        <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
+        <% if (isAuthor || isCollaborator) { %>
         <div class="card-footer mt-auto d-flex flex-column">
           <div class="align-self-end">
             <form action="/lists/<%=list._id%>/movies/<%=movie._id%>?_method=DELETE" method="POST">
