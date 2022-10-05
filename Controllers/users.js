@@ -45,7 +45,6 @@ module.exports.addCollaborator = async (req, res) => {
     const list = await List.findById(listId);
     
     const { userId } = req.body;
-    console.log(userId);//////////////
     const newCollaborator = await User.findById(userId);
     list.listOfCollaborators.push(newCollaborator);
     await list.save();

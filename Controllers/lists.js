@@ -52,7 +52,6 @@ module.exports.showList = async (req, res) => {
                 path: 'username'
             }
         }).populate('listAuthor' );
-        console.log
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');

@@ -7,7 +7,9 @@
     <% if(list.listOfCollaborators.length > 0) {%>
     <p>Collaborators:
       <% for(collaborator of list.listOfCollaborators) { %>
-      <%= collaborator.username %>,
+      <div class="me-2">
+        <%= collaborator.username %>
+      </div>
       <% } %>
     </p>
     <% } %>
@@ -23,22 +25,25 @@
 
   </div>
   <div class="col-4">
+    <div>
+    <h3>Add Movies</h3>
     <% if(currentUser) { %>
-    <form action="/lists/<%= list._id %>/movies" method="POST">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Add movie title" name="searchTitle" id="searchTitle"
-          aria-label="movie title search" aria-describedby="button-addon2">
-        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
-      </div>
-    </form>
+      <form action="/lists/<%= list._id %>/movies" method="POST">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Add movie title" name="searchTitle" id="searchTitle"
+            aria-label="movie title search" aria-describedby="button-addon2">
+          <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+      </form>
+    </div>
     <% if (currentUser && list.listAuthor.equals(currentUser._id)) { %>
-    <form action="/<%= list._id %>" method="POST">
-      <select class="form-select" aria-label="collaborator selection list">
+      <h3>Add Collaborators</h3>
+    <form class="d-flex flex-row" action="/<%= list._id %>" method="POST">
+      <select name="userId" class="form-select" aria-label="collaborator selection list">
         <% for(let user of users) { %>
-        <option name="userId" value="<%= user._id %>"><%= user.username%></option>
+        <option value="<%= user._id %>"><%= user.username%></option>
         <% } %>
       </select>
-      <button type="submit" class="btn btn-secondary mt-3">Add Collaborator</button>
+      <button type="submit" class="btn btn-outline-secondary px-4">Add</button>
     </form>
     <% } %>
     <% } %>
