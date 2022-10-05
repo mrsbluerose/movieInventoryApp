@@ -1,9 +1,37 @@
 <% layout('layouts/boilerplate') %>
-<h1>My Lists</h1>
 
 <div class="row">
   <div class="col-6">
-    <% for (let list of lists) {%>
+    <h1>My Lists</h1>
+    <% for (let list of authorOfLists) {%>
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="card-body">
+          <a href="/lists/<%= list._id %>">
+            <h5 class="card-title"><%= list.listTitle %></h5>
+          </a>
+          <p class="card-text"><%= list.listDescription %></p>
+          <p class="card-text"><small class="text-muted">Created by <%= list.listAuthor.username %></small></p>
+        </div>
+      </div>
+      <% if(list.listOfMovies.length > 0) { %>
+      <div class="card-body">
+          <div class="d-flex flex-row flex-nowrap overflow-auto">
+            <% for(let moviePoster of list.listOfMovies) { %>
+            <div class="d-flex d-inline-flex col-xs-4 me-2">
+              <img src="<%-tmdb.images.base_url%><%-tmdb.images.poster_sizes[0]%>/<%-moviePoster.poster_path%>"
+                alt="<%=list.title%> poster">
+            </div>
+            <% } %>
+          </div>
+      </div>
+      <% }%>
+    </div>
+    <% }%>
+  </div>
+  <div class="col-6">
+    <h1>Collaborating Lists</h1>
+    <% for (let list of collaboratorOfLists) {%>
     <div class="card mb-3">
       <div class="row g-0">
         <div class="card-body">

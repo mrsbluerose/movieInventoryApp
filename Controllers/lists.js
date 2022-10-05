@@ -6,6 +6,9 @@ const TMDB = require('../api/tmdbConfig');
 
 module.exports.index = async (req, res) => {
     const tmdb = new TMDB();
+    const authorOfLists = [];
+    const collaboratorOfLists = [];
+
     const unsortedLists = await List.find({})
         .populate({
             path: 'listOfMovies',
@@ -13,7 +16,8 @@ module.exports.index = async (req, res) => {
                 path: 'poster_path'
             }
         }).populate('listAuthor' );
-    const lists = unsortedLists.sort((a,b) => {
+
+    const sortedLists = unsortedLists.sort((a,b) => {
         if (a.listTitle < b.listTitle) {
             return -1;
         }
@@ -23,7 +27,17 @@ module.exports.index = async (req, res) => {
         return 0;
         
     });
-    res.render('lists/index', { lists, tmdb })
+    const username = req.user.username;
+    for (list of sortedLists) {
+        if(checkAuthor(list, username)){
+            authorOfLists.push(list);
+        }
+        if (checkCollaborator(list, username)){
+            collaboratorOfLists.push(list);
+        }
+    }
+    
+    res.render('lists/index', { authorOfLists, collaboratorOfLists, tmdb })
 }
 
 module.exports.renderNewForm = (req, res) => {
@@ -57,12 +71,12 @@ module.exports.showList = async (req, res) => {
         return res.redirect('/lists');
     }
     const users = await User.find({});
-    let isCollaborator = false;
-    let isAuthor = false;
-    if(req.user){
-        isCollaborator = list.listOfCollaborators.some(e => e.username === req.user.username);
-        isAuthor = list.listAuthor.username === req.user.username;
-    }
+    let isCollaborator = checkCollaborator(list, req.user.username);
+    let isAuthor = checkAuthor(list, req.user.username);
+    // if(req.user){
+    //     isCollaborator = list.listOfCollaborators.some(e => e.username === req.user.username);
+    //     isAuthor = list.listAuthor.username === req.user.username;
+    // }
     res.render('lists/show', { list, tmdb, users, isCollaborator, isAuthor });
 }
 
@@ -88,4 +102,20 @@ module.exports.deleteList = async (req, res) => {
     await List.findByIdAndDelete(listId);
     req.flash('success', 'Successfully deleted list')
     res.redirect('/lists');
+}
+
+function checkCollaborator(list, username) {
+    if(list.listOfCollaborators.some(e => e.username === username)){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkAuthor(list, username){
+    if(list.listAuthor.username === username){
+        return true;
+    } else {
+        return false;
+    }
 }
