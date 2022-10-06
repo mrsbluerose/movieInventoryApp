@@ -128,6 +128,7 @@ function sortList(list, sortType) {
     let sortTerm = '';
     switch(sortType) { 
         case 'title':
+            console.log('title');
             sortTerm = 'listTitle';
             break;
         case 'author':
@@ -137,7 +138,7 @@ function sortList(list, sortType) {
             sortTerm = 'list.createdDate';
             break;
         default:
-            return list;
+            
     }
     return list.sort((a, b) => {
         if (a.sortTerm < b.sortTerm) {
