@@ -28,11 +28,14 @@ module.exports.index = async (req, res) => {
         
     });
     const username = req.user.username;
+    
     for (list of sortedLists) {
-        if(checkAuthor(list, username)){
+        let isAuthor = checkAuthor(list, username);
+        let isCollaborator = checkCollaborator(list, username);
+        if(isAuthor){
             authorOfLists.push(list);
         }
-        if (checkCollaborator(list, username)){
+        if (isCollaborator){
             collaboratorOfLists.push(list);
         }
     }
@@ -46,6 +49,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createList = async (req, res, next) => {
     const list = new List(req.body.list);
+    const user = new User()
     list.listAuthor = req.user._id;
     await list.save();
     req.flash('success', 'Successfully made a new list!');
@@ -105,7 +109,8 @@ module.exports.deleteList = async (req, res) => {
 }
 
 function checkCollaborator(list, username) {
-    if(list.listOfCollaborators.some(e => e.username === username)){
+    let checkCollaborator = list.listOfCollaborators.some(e => e.username === username);
+    if(checkCollaborator){
         return true;
     } else {
         return false;
@@ -113,7 +118,8 @@ function checkCollaborator(list, username) {
 }
 
 function checkAuthor(list, username){
-    if(list.listAuthor.username === username){
+    let checkAuthor = list.listAuthor.username === username;
+    if(checkAuthor){
         return true;
     } else {
         return false;
