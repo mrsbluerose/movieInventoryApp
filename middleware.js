@@ -1,4 +1,4 @@
-const { movieSchema, personalReviewSchema } = require('./schemas.js');
+const { movieSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError');
 const Movie = require('./models/movie');
 //const PersonalReview = require('./models/personalReview');

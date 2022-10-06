@@ -21,7 +21,7 @@ const User = require('./models/user');
 const userRoutes = require('./routes/users');
 const listRoutes = require('./routes/lists');
 const movieRoutes = require('./routes/movies');
-const personalReviewRoutes = require('./routes/personalReviews');
+//const personalReviewRoutes = require('./routes/personalReviews');
 
 mongoose.connect('mongodb://localhost:27017/movie-lists');
 const db = mongoose.connection;

@@ -6,6 +6,7 @@ const TMDB = require('../api/tmdbConfig');
 
 module.exports.index = async (req, res) => {
     const tmdb = new TMDB();
+    const username = req.user.username;
     const authorOfLists = [];
     const collaboratorOfLists = [];
 
@@ -16,7 +17,6 @@ module.exports.index = async (req, res) => {
                 path: 'poster_path'
             }
         }).populate('listAuthor' );
-
     const sortedLists = unsortedLists.sort((a,b) => {
         if (a.listTitle < b.listTitle) {
             return -1;
@@ -27,15 +27,18 @@ module.exports.index = async (req, res) => {
         return 0;
         
     });
-    const username = req.user.username;
     
     for (list of sortedLists) {
-        let isAuthor = checkAuthor(list, username);
-        let isCollaborator = checkCollaborator(list, username);
-        if(isAuthor){
+        if(req.user){
+            let isCollaborator = list.listOfCollaborators.some(e => e.username === req.user.username);
+           let isAuthor = list.listAuthor.username === req.user.username;
+       }
+        // let isAuthor = checkAuthor(list, username);
+        // let isCollaborator = checkCollaborator(list, username);
+        if(isAuthor){////
             authorOfLists.push(list);
         }
-        if (isCollaborator){
+        if (isCollaborator){ //////
             collaboratorOfLists.push(list);
         }
     }
@@ -49,8 +52,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createList = async (req, res, next) => {
     const list = new List(req.body.list);
-    const user = new User()
-    list.listAuthor = req.user._id;
+    list.listAuthor = await User.findById(req.user._id);
     await list.save();
     req.flash('success', 'Successfully made a new list!');
     res.redirect(`/lists/${list._id}`)
@@ -75,12 +77,12 @@ module.exports.showList = async (req, res) => {
         return res.redirect('/lists');
     }
     const users = await User.find({});
-    let isCollaborator = checkCollaborator(list, req.user.username);
-    let isAuthor = checkAuthor(list, req.user.username);
-    // if(req.user){
-    //     isCollaborator = list.listOfCollaborators.some(e => e.username === req.user.username);
-    //     isAuthor = list.listAuthor.username === req.user.username;
-    // }
+    //let isCollaborator = checkCollaborator(list, req.user._id);//////
+    //let isAuthor = checkAuthor(list, req.user._id);/////////
+    if(req.user){
+         isCollaborator = list.listOfCollaborators.some(e => e.username === req.user.username);
+        isAuthor = list.listAuthor.username === req.user.username;
+    }
     res.render('lists/show', { list, tmdb, users, isCollaborator, isAuthor });
 }
 
@@ -108,8 +110,18 @@ module.exports.deleteList = async (req, res) => {
     res.redirect('/lists');
 }
 
-function checkCollaborator(list, username) {
-    let checkCollaborator = list.listOfCollaborators.some(e => e.username === username);
+function checkAuthor(list, id){ ///////
+    let checkAuthor = list.listAuthor._id === id;/////
+    if(checkAuthor){
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function checkCollaborator(list, id) { ///////
+    let checkCollaborator = list.listOfCollaborators.some(e => e._id === id);
+    console.log('from list controller check collab for: ', checkCollaborator, list.listTitle);////
     if(checkCollaborator){
         return true;
     } else {
@@ -117,11 +129,3 @@ function checkCollaborator(list, username) {
     }
 }
 
-function checkAuthor(list, username){
-    let checkAuthor = list.listAuthor.username === username;
-    if(checkAuthor){
-        return true;
-    } else {
-        return false;
-    }
-}

@@ -4,9 +4,9 @@ const lists = require('../controllers/lists');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn } = require('../middleware');
 
-router.route('/')
-    .get(catchAsync(lists.index))
-    .post(catchAsync(lists.createList))
+router.get('/', catchAsync(lists.index))
+
+router.post('/create', catchAsync(lists.createList))
 
 router.get('/new', isLoggedIn, lists.renderNewForm);
 
