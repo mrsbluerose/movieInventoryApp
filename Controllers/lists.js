@@ -6,7 +6,6 @@ const TMDB = require('../api/tmdbConfig');
 
 module.exports.index = async (req, res) => {
     const tmdb = new TMDB();
-    const username = req.user.username;
     const authorOfLists = [];
     const collaboratorOfLists = [];
 
@@ -16,33 +15,30 @@ module.exports.index = async (req, res) => {
             populate: {
                 path: 'poster_path'
             }
-        }).populate('listAuthor' );
-    const sortedLists = unsortedLists.sort((a,b) => {
-        if (a.listTitle < b.listTitle) {
-            return -1;
-        }
-        if (a.listTitle > b.listTitle) {
-            return 1;
-        }
-        return 0;
-        
-    });
-    
+        }).populate('listAuthor');
+
+    // const sortedLists = unsortedLists.sort((a, b) => {
+    //     if (a.listTitle < b.listTitle) {
+    //         return -1;
+    //     }
+    //     if (a.listTitle > b.listTitle) {
+    //         return 1;
+    //     }
+    //     return 0;
+
+    // });
+
+    const sortedLists = sortList(unsortedLists, 'title');
+
     for (list of sortedLists) {
-        if(req.user){
-            let isCollaborator = list.listOfCollaborators.some(e => e.username === req.user.username);
-           let isAuthor = list.listAuthor.username === req.user.username;
-       }
-        // let isAuthor = checkAuthor(list, username);
-        // let isCollaborator = checkCollaborator(list, username);
-        if(isAuthor){////
+        if (checkAuthor(list, req.user._id)) {
             authorOfLists.push(list);
         }
-        if (isCollaborator){ //////
+        if (checkCollaborator(list, req.user._id)) {
             collaboratorOfLists.push(list);
         }
     }
-    
+
     res.render('lists/index', { authorOfLists, collaboratorOfLists, tmdb })
 }
 
@@ -61,29 +57,29 @@ module.exports.createList = async (req, res, next) => {
 module.exports.showList = async (req, res) => {
     const tmdb = new TMDB();
     const { listId } = req.params;
-    const list = await List.findById(listId).populate({ 
-            path: 'listOfMovies',
-            populate: {
-                path: 'movieAuthor'
-            }
-        }).populate({ 
-            path: 'listOfCollaborators',
-            populate: {
-                path: 'username'
-            }
-        }).populate('listAuthor' );
+    const list = await List.findById(listId).populate({
+        path: 'listOfMovies',
+        populate: {
+            path: 'movieAuthor'
+        }
+    }).populate({
+        path: 'listOfCollaborators',
+        populate: {
+            path: 'username'
+        }
+    }).populate('listAuthor');
     if (!list) {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
     }
     const users = await User.find({});
-    //let isCollaborator = checkCollaborator(list, req.user._id);//////
-    //let isAuthor = checkAuthor(list, req.user._id);/////////
-    if(req.user){
-         isCollaborator = list.listOfCollaborators.some(e => e.username === req.user.username);
-        isAuthor = list.listAuthor.username === req.user.username;
-    }
-    res.render('lists/show', { list, tmdb, users, isCollaborator, isAuthor });
+    let isAuthor = checkAuthor(list, req.user._id);
+    let isCollaborator = checkCollaborator(list, req.user._id);
+    res.render('lists/show', { list, tmdb, users, isAuthor, isCollaborator });
+}
+
+module.exports.sortLists = (req, res) => {
+
 }
 
 module.exports.renderEditForm = async (req, res) => {
@@ -110,22 +106,46 @@ module.exports.deleteList = async (req, res) => {
     res.redirect('/lists');
 }
 
-function checkAuthor(list, id){ ///////
-    let checkAuthor = list.listAuthor._id === id;/////
-    if(checkAuthor){
+function checkAuthor(list, id) {
+    let checkAuthor = list.listAuthor._id.valueOf() === id.valueOf();
+    if (checkAuthor) {
         return true;
     } else {
         return false;
     }
 }
 
-function checkCollaborator(list, id) { ///////
-    let checkCollaborator = list.listOfCollaborators.some(e => e._id === id);
-    console.log('from list controller check collab for: ', checkCollaborator, list.listTitle);////
-    if(checkCollaborator){
+function checkCollaborator(list, id) {
+    let checkCollaborator = list.listOfCollaborators.some(e => e._id.valueOf() === id.valueOf());
+    if (checkCollaborator) {
         return true;
     } else {
         return false;
     }
 }
 
+function sortList(list, sortType) {
+    let sortTerm = '';
+    switch(sortType) { 
+        case 'title':
+            sortTerm = 'listTitle';
+            break;
+        case 'author':
+            sortTerm = 'list.listAuthor.username';
+            break;
+        case 'createdDate':
+            sortTerm = 'list.createdDate';
+            break;
+        default:
+            return list;
+    }
+    return list.sort((a, b) => {
+        if (a.sortTerm < b.sortTerm) {
+            return -1;
+        }
+        if (a.sortTerm > b.sortTerm) {
+            return 1;
+        }
+        return 0;
+    });
+}
