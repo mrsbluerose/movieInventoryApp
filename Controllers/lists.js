@@ -30,14 +30,14 @@ module.exports.index = async (req, res) => {
 
     const sortedLists = sortList(unsortedLists, 'title');
 
-    for (list of sortedLists) {
-        if (checkAuthor(list, req.user._id)) {
-            authorOfLists.push(list);
+        for (list of sortedLists) {
+            if (checkAuthor(list, req.user._id)) {
+                authorOfLists.push(list);
+            }
+            if (checkCollaborator(list, req.user._id)) {
+                collaboratorOfLists.push(list);
+            }
         }
-        if (checkCollaborator(list, req.user._id)) {
-            collaboratorOfLists.push(list);
-        }
-    }
 
     res.render('lists/index', { authorOfLists, collaboratorOfLists, tmdb })
 }
@@ -126,7 +126,7 @@ function checkCollaborator(list, id) {
 
 function sortList(list, sortType) {
     let sortTerm = '';
-    switch(sortType) { 
+    switch (sortType) {
         case 'title':
             console.log('title');
             sortTerm = 'listTitle';
@@ -138,7 +138,7 @@ function sortList(list, sortType) {
             sortTerm = 'list.createdDate';
             break;
         default:
-            
+
     }
     return list.sort((a, b) => {
         if (a.sortTerm < b.sortTerm) {

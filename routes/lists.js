@@ -4,17 +4,17 @@ const lists = require('../controllers/lists');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn } = require('../middleware');
 
-router.get('/', catchAsync(lists.index))
+router.get('/', isLoggedIn, catchAsync(lists.index))
 
-router.post('/create', catchAsync(lists.createList))
+router.post('/create', isLoggedIn, catchAsync(lists.createList))
 
 router.get('/new', isLoggedIn, lists.renderNewForm);
 
 router.route('/:listId')
-    .get(catchAsync(lists.showList))
-    .put(catchAsync(lists.updateList))
-    .delete((lists.deleteList))
+    .get(isLoggedIn, catchAsync(lists.showList))
+    .put(isLoggedIn, catchAsync(lists.updateList))
+    .delete(isLoggedIn, (lists.deleteList))
 
-router.get('/:listId/edit', catchAsync(lists.renderEditForm));
+router.get('/:listId/edit', isLoggedIn, catchAsync(lists.renderEditForm));
 
 module.exports = router;
