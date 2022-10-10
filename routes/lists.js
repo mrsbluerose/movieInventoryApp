@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const lists = require('../controllers/lists');
 const catchAsync = require('../utils/catchAsync');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, isListAuthor } = require('../middleware');
 
 router.get('/', isLoggedIn, catchAsync(lists.index))
 
@@ -13,8 +13,8 @@ router.get('/new', isLoggedIn, lists.renderNewForm);
 router.route('/:listId')
     .get(isLoggedIn, catchAsync(lists.showList))
     .put(isLoggedIn, catchAsync(lists.updateList))
-    .delete(isLoggedIn, (lists.deleteList))
+    .delete(isLoggedIn, isListAuthor, (lists.deleteList))
 
-router.get('/:listId/edit', isLoggedIn, catchAsync(lists.renderEditForm));
+router.get('/:listId/edit', isLoggedIn, isListAuthor, catchAsync(lists.renderEditForm));
 
 module.exports = router;

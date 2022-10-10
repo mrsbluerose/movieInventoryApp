@@ -128,7 +128,6 @@ function sortList(list, sortType) {
     let sortTerm = '';
     switch (sortType) {
         case 'title':
-            console.log('title');
             sortTerm = 'listTitle';
             break;
         case 'author':
