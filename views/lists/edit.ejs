@@ -1,15 +1,25 @@
 <% layout('layouts/boilerplate') %>
-    <h1>Edit List</h1>
+
+<div class="mb-3 col-2">
+    <a href="/lists" class="card-link btn btn-primary">Back</a>
+</div>
+
+<h1>Edit List</h1>
+
+<div class="mb-3 col-8">
     <form action="/lists/<%=list._id%>?_method=PUT" method="POST" class="needs-validation" novalidate>
-        
-        <div>
-            <label for="listTitle">Title</label>
-            <input type="text" id="listTitle" name="list[listTitle]" value="<%=list.listTitle %>" required>
+        <div class="mb-3">
+            <label for="listTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" name="list[listTitle]" value="<%=list.listTitle %>" required>
         </div>
-        <div>
+        <div class="mb-3">
             <label for="listDescription">Description</label>
-            <input type="text" id="listDescription" name="list[listDescription]" value="<%= list.listDescription%>" required>
+            <textarea class="form-control" id="listDescription" name="list[listDescription]" required><%= list.listDescription%></textarea>
+
         </div>
-        <button>Update List</button>
+        <button type="submit" class="btn btn-success">Update List</button>
+
     </form>
-    <a href="/list/<%= list._id%>">Back To List</a>
+
+
+</div>

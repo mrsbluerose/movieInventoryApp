@@ -1,5 +1,10 @@
 <% layout('layouts/boilerplate') %>
 
+<div class="mb-3 col-2">
+    <a href="/lists" class="card-link btn btn-primary">Back</a>
+</div>
+
+<h1>New List</h1>
 
 <div class="mb-3 col-8">
     <form action="/lists/create" method="POST">
@@ -9,14 +14,13 @@
         </div>
         <div class="mb-3">
             <label for="listDescription">Description</label>
-            <textarea class="form-control" placeholder="Description" id="listDescription" name="list[listDescription]"></textarea>
+            <textarea class="form-control" placeholder="Description" id="listDescription"
+                name="list[listDescription]"></textarea>
 
         </div>
         <button type="submit" class="btn btn-success">Create List</button>
 
     </form>
-    <div class="mb-3">
-        <a href="/lists" class="card-link btn btn-primary">Back</a>
-    </div>
+
 
 </div>
