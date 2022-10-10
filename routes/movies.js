@@ -3,7 +3,7 @@ const router = express.Router({mergeParams: true});
 const movies = require('../controllers/movies');
 const catchAsync = require('../utils/catchAsync');
 //const Movie = require('../models/movie');
-const { isLoggedIn, validateMovie, isMovieAuthor } = require('../middleware');
+const { isLoggedIn, isCollaborator, isMovieAuthor } = require('../middleware');
 const { Router } = require('express');
 
 
@@ -29,9 +29,9 @@ const { Router } = require('express');
 // router.post('/', /*isLoggedIn, /*validateMovie,*/ catchAsync(movies.searchMovie)); ///// temp
 
 router.route('/')
-    .post(isLoggedIn, catchAsync(movies.searchMovie))
-    .put(isLoggedIn, catchAsync(movies.addMovie))
+    .post(isLoggedIn, isCollaborator, catchAsync(movies.searchMovie))
+    .put(isLoggedIn, isCollaborator, catchAsync(movies.addMovie))
 
-router.delete('/:movieId', isLoggedIn, isMovieAuthor, catchAsync(movies.deleteMovie));
+router.delete('/:movieId', isCollaborator, isLoggedIn, isMovieAuthor, catchAsync(movies.deleteMovie));
 
 module.exports = router;

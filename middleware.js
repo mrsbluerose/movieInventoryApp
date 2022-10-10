@@ -14,15 +14,37 @@ module.exports.isLoggedIn = (req, res, next) => {
 }
 
 module.exports.isCollaborator = async (req, res, next) => {
-    const { userId, listId } = req.params;
+    const { listId } = req.params;
     const list = await List.findById(listId);
-    const collaborators = list.listOfCollaborators;
-    if (!list.listAuthor.equals(req.user._id) || !collaborators.includes(userId)) {
+    let checkAuthor = list.listAuthor._id.valueOf() === req.user._id.valueOf();
+    let checkCollaborator = list.listOfCollaborators.some(e => e._id.valueOf() === req.user._id.valueOf());
+    //const collaborators = list.listOfCollaborators;
+    if (checkAuthor || checkCollaborator) {
+        next();
+    } else {
         req.flash('error', 'You do not have permission to do that!');
         return res.redirect(`/lists/${listId}`);
-    } else {
-        next();
     }
+}
+
+module.exports.isMovieAuthor = async (req, res, next) => {
+    const { listId , movieId } = req.params;
+    const movie = await Movie.findById(movieId);
+    if (!movie.movieAuthor.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/lists/${listId}`);
+    }
+    next();
+}
+
+module.exports.isListAuthor = async (req, res, next) => {
+    const { listId  } = req.params;
+    const list = await List.findById(listId);
+    if (!list.listAuthor.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/lists/${listId}`);
+    }
+    next();
 }
 
 // module.exports.validateMovie = (req, res, next) => {
@@ -47,25 +69,7 @@ module.exports.isCollaborator = async (req, res, next) => {
 //     next();
 // }
 
-module.exports.isMovieAuthor = async (req, res, next) => {
-    const { listId , movieId } = req.params;
-    const movie = await Movie.findById(movieId);
-    if (!movie.movieAuthor.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/lists/${listId}`);
-    }
-    next();
-}
 
-module.exports.isListAuthor = async (req, res, next) => {
-    const { listId  } = req.params;
-    const list = await List.findById(listId);
-    if (!list.listAuthor.equals(req.user._id)) {
-        req.flash('error', 'You do not have permission to do that!');
-        return res.redirect(`/lists/${listId}`);
-    }
-    next();
-}
 
 // module.exports.isPersonalReviewAuthor = async (req, res, next) => {
 //     const { id, personalReviewId } = req.params;

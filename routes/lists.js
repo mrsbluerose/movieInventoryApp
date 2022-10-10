@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router({mergeParams: true});
 const lists = require('../controllers/lists');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isListAuthor } = require('../middleware');
