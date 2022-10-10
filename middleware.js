@@ -2,6 +2,7 @@ const { movieSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError');
 const Movie = require('./models/movie');
 const List = require('./models/list')
+const listUtils = require('./utils/listUtils');
 //const PersonalReview = require('./models/personalReview');
 
 module.exports.isLoggedIn = (req, res, next) => {
@@ -13,13 +14,13 @@ module.exports.isLoggedIn = (req, res, next) => {
     next();
 }
 
-module.exports.isCollaborator = async (req, res, next) => {
+module.exports.isListCollaborator = async (req, res, next) => {
     const { listId } = req.params;
     const list = await List.findById(listId);
-    let checkAuthor = list.listAuthor._id.valueOf() === req.user._id.valueOf();
-    let checkCollaborator = list.listOfCollaborators.some(e => e._id.valueOf() === req.user._id.valueOf());
+    let isAuthor = listUtils.checkAuthor(list, req.user._id);
+    let isCollaborator = listUtils.checkCollaborator(list, req.user._id);
     //const collaborators = list.listOfCollaborators;
-    if (checkAuthor || checkCollaborator) {
+    if (isAuthor || isCollaborator) {
         next();
     } else {
         req.flash('error', 'You do not have permission to do that!');
@@ -40,7 +41,8 @@ module.exports.isMovieAuthor = async (req, res, next) => {
 module.exports.isListAuthor = async (req, res, next) => {
     const { listId  } = req.params;
     const list = await List.findById(listId);
-    if (!list.listAuthor.equals(req.user._id)) {
+    let isAuthor = listUtils.checkAuthor(list, req.user._id);
+    if (!isAuthor) {
         req.flash('error', 'You do not have permission to do that!');
         return res.redirect(`/lists/${listId}`);
     }
