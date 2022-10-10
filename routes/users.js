@@ -4,7 +4,7 @@ const passport = require('passport');
 const catchAsync = require('../utils/catchAsync');
 //const User = require('../models/user');
 const users = require('../controllers/users');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn, isListAuthor } = require('../middleware');
 
 router.route('/register')
     .get(users.renderRegister)
@@ -16,6 +16,6 @@ router.route('/login')
 
 router.get('/logout', users.logout);
 
-router.post('/:listId', isLoggedIn, users.addCollaborator);
+router.post('/:listId', isLoggedIn, isListAuthor, users.addCollaborator);
 
 module.exports = router;
