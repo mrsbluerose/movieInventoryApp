@@ -3,6 +3,7 @@ const List = require('../models/list');
 const User = require('../models/user');
 const TMDB = require('../api/tmdbConfig');
 const listUtils = require('../utils/listUtils');
+const movieUtils = require('../utils/movieUtils');
 //const Movie = require('../models/movie');
 
 module.exports.index = async (req, res) => {
@@ -38,9 +39,17 @@ module.exports.createList = async (req, res, next) => {
 
 module.exports.showList = async (req, res) => {
     const tmdb = new TMDB();
+    const availableSortTypes = ['title', 'date', 'length', 'added by'];
+    const sortType = 'title';
+    if(req.body.sortType) {
+        sortType = movieUtils.setSortType(req.body.sortType);
+
+    }
+    console.log('from list controller show list sortType is: ', req.body.sortType);//////
     const { listId } = req.params;
     const list = await List.findById(listId).populate({
         path: 'listOfMovies',
+        //options: { sort: { 'title': -1 }}, //not working. need to reference key value in movie object in array of movies
         populate: {
             path: 'movieAuthor'
         }
@@ -54,11 +63,15 @@ module.exports.showList = async (req, res) => {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
     }
+    const sortedListOfMovies = listUtils.sortList(list.listOfMovies, sortType);
+    list.listOfMovies = sortedListOfMovies;
     const users = await User.find({});
     let isAuthor = listUtils.checkAuthor(list, req.user._id);
     let isCollaborator = listUtils.checkCollaborator(list, req.user._id);
-    res.render('lists/show', { list, tmdb, users, isAuthor, isCollaborator });
+    res.render('lists/show', { list, tmdb, users, isAuthor, isCollaborator, availableSortTypes });
 }
+
+
 
 module.exports.renderEditForm = async (req, res) => {
     const { listId } = req.params;

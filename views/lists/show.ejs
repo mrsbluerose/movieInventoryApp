@@ -22,6 +22,14 @@
         <button class="btn btn-danger">Delete</button>
       </form>
       <% } %>
+      <form class="d-flex flex-row" action="/lists/<%= list._id %>" method="GET">
+        <select name="sortType" class="form-select" aria-label="types of sort">
+          <% for(let sortType of availableSortTypes) { %>
+          <option value="<%= sortType %>"><%= sortType %></option>
+          <% } %>
+        </select>
+        <button type="submit" class="btn btn-outline-secondary px-4">SORT</button>
+      </form>
     </div>
 
   </div>
@@ -66,13 +74,17 @@
         </a>
       </div>
       <div class="col-md-8 d-flex flex-column">
-        <div class="card-body">
+        <div class="card-body d-flex flex-column">
           <a href="https://www.themoviedb.org/movie/<%=movie.id%>-<%=movie.title%>?language=en-US" target="_blank"
             rel="noopener noreferrer">
             <h5 class="card-title"><%= movie.title %></h5>
           </a>
           <p class="card-text"><%= movie.overview %></p>
-          <p class="card-text"><small class="text-muted">Submitted by <%= movie.movieAuthor.username %></small></p>
+          <div class="d-flex mt-auto">
+            <div class="card-text px-2">Released: <%= movie.release_date %></div>
+            <div class="card-text px-2">Length: <%= movie.runtime %> minutes</div>
+            <div class="card-text ms-auto"><small class="text-muted">Submitted by <%= movie.movieAuthor.username %></small></div>
+          </div>
         </div>
         <% if (isAuthor || isCollaborator) { %>
         <div class="card-footer mt-auto d-flex flex-column">
