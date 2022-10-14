@@ -43,7 +43,6 @@ module.exports.showList = async (req, res) => {
     let sortType;
     if (req.body.sortType) {
         sortType = req.body.sortType;
-        console.log('selected sort: ', sortType);
     } else {
         sortType = 'title';
     }
@@ -64,7 +63,6 @@ module.exports.showList = async (req, res) => {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
     }
-    console.log(' sort: ', sortType);
     const sortedListOfMovies = movieUtils.sortMovies(list.listOfMovies, sortType);
     list.listOfMovies = sortedListOfMovies;
     const users = await User.find({});

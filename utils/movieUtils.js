@@ -11,15 +11,16 @@ module.exports.sortMovies = (listOfMovies, sortType) => {
             break;
         case 'date':
             sortTerm = 'release_date';
-            sortedMovies = sortMoviesNum(listOfMovies, sortTerm);
+            sortedMovies = sortMoviesDate(listOfMovies, sortTerm);
             break;
         case 'length':
             sortTerm = 'runtime'
             sortedMovies = sortMoviesNum(listOfMovies, sortTerm);
             break;
         case 'added by':
-            sortTerm = 'movie.movieAuthor.username';
-            sortedMovies = sortMoviesAlpha(listOfMovies, sortTerm);
+            sortTermOne = 'movieAuthor';
+            sortTermTwo = 'username';
+            sortedMovies = sortMoviesAlpha(listOfMovies, sortTermOne, sortTermTwo);
             break;
         default:
             console.log('that sort will not work')
@@ -28,27 +29,43 @@ module.exports.sortMovies = (listOfMovies, sortType) => {
     return sortedMovies;
 }
 
-sortMoviesAlpha = (listOfMovies, sortType) => {
+sortMoviesAlpha = (listOfMovies, sortTypeOne, sortTypeTwo = null) => {
+    if (sortTypeTwo) {
+        const sortedMovies = listOfMovies.sort((a, b) => {
+            if (a[sortTypeOne][sortTypeTwo].toUpperCase() < b[sortTypeOne][sortTypeTwo].toUpperCase()) {
+                return -1;
+            }
+            if (a[sortTypeOne][sortTypeTwo].toUpperCase() > b[sortTypeOne][sortTypeTwo].toUpperCase()) {
+                return 1;
+            }
+            return 0;
 
-    const sortedMovies = listOfMovies.sort((a, b) => {
-        if (a[sortType].toUpperCase() < b[sortType].toUpperCase()) {
-            return -1;
-        }
-        if (a[sortType].toUpperCase() > b[sortType].toUpperCase()) {
-            return 1;
-        }
-        return 0;
-
-    });
-
-    return sortedMovies;
+        });
+        return sortedMovies;
+    } else {
+        const sortedMovies = listOfMovies.sort((a, b) => {
+            if (a[sortTypeOne].toUpperCase() < b[sortTypeOne].toUpperCase()) {
+                return -1;
+            }
+            if (a[sortTypeOne].toUpperCase() > b[sortTypeOne].toUpperCase()) {
+                return 1;
+            }
+            return 0;
+        });
+        return sortedMovies;
+    }
 }
 
 sortMoviesNum = (listOfMovies, sortType) => {
-    console.log('this is the sort: ', sortType)
-    const sortedMovies = listOfMovies.sort((a, b) => { 
-        console.log(a[parseInt(sortType)]);
-        console.log(b[parseInt(sortType)]);
-        return a[parseInt(sortType)] - b[parseInt(sortType)] });
-        return sortedMovies;
+    const sortedMovies = listOfMovies.sort((a, b) => {
+        return a[sortType] - b[sortType]
+    });
+    return sortedMovies;
+}
+
+sortMoviesDate = (listOfMovies, sortType) => {
+    const sortedMovies = listOfMovies.sort((a, b) => {
+        return new Date(a[sortType]) - new Date(b[sortType])
+    });
+    return sortedMovies;
 }
