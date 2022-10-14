@@ -27,7 +27,7 @@ module.exports.filterCollaboratorLists = (lists, id) => {
 }
 
 module.exports.setSortType = (sortType) => {
-    
+
     let sortTerm = '';
     switch (sortType) {
         case 'title':
@@ -40,7 +40,7 @@ module.exports.setSortType = (sortType) => {
             sortTerm = 'listTitle';
             break;
     }
-    
+
     return sortTerm;
 }
 
@@ -59,4 +59,14 @@ module.exports.sortList = (unsortedLists, sortType) => {
     });
 
     return sortedLists;
+}
+
+module.exports.getDate = () => {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let yyyy = today.getFullYear();
+
+    return `${yyyy}-${mm}-${dd}`;
+
 }
