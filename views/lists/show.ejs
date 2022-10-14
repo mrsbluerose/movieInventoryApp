@@ -22,7 +22,7 @@
         <button class="btn btn-danger">Delete</button>
       </form>
       <% } %>
-      <form class="d-flex flex-row" action="/lists/<%= list._id %>" method="GET">
+      <form class="d-flex flex-row" action="/lists/<%= list._id %>" method="POST">
         <select name="sortType" class="form-select" aria-label="types of sort">
           <% for(let sortType of availableSortTypes) { %>
           <option value="<%= sortType %>"><%= sortType %></option>

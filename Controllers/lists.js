@@ -17,7 +17,7 @@ module.exports.index = async (req, res) => {
                 path: 'poster_path'
             }
         }).populate('listAuthor');
-      
+
     const sortedLists = listUtils.sortList(unsortedLists, sortType);
     const authorOfLists = listUtils.filterAuthorLists(sortedLists, req.user._id);
     const collaboratorOfLists = listUtils.filterCollaboratorLists(sortedLists, req.user._id);
@@ -40,12 +40,13 @@ module.exports.createList = async (req, res, next) => {
 module.exports.showList = async (req, res) => {
     const tmdb = new TMDB();
     const availableSortTypes = ['title', 'date', 'length', 'added by'];
-    const sortType = 'title';
-    if(req.body.sortType) {
-        sortType = movieUtils.setSortType(req.body.sortType);
-
+    let sortType;
+    if (req.body.sortType) {
+        sortType = req.body.sortType;
+        console.log('selected sort: ', sortType);
+    } else {
+        sortType = 'title';
     }
-    console.log('from list controller show list sortType is: ', req.body.sortType);//////
     const { listId } = req.params;
     const list = await List.findById(listId).populate({
         path: 'listOfMovies',
@@ -63,7 +64,8 @@ module.exports.showList = async (req, res) => {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
     }
-    const sortedListOfMovies = listUtils.sortList(list.listOfMovies, sortType);
+    console.log(' sort: ', sortType);
+    const sortedListOfMovies = movieUtils.sortMovies(list.listOfMovies, sortType);
     list.listOfMovies = sortedListOfMovies;
     const users = await User.find({});
     let isAuthor = listUtils.checkAuthor(list, req.user._id);
