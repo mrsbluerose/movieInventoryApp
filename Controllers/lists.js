@@ -8,7 +8,13 @@ const movieUtils = require('../utils/movieUtils');
 
 module.exports.index = async (req, res) => {
     const tmdb = new TMDB();
-    const sortType = listUtils.setSortType('title');
+    const availableSortTypes = listUtils.listSortTypes;
+    let sortType;
+    if (req.body.sortType) {
+        sortType = req.body.sortType;
+    } else {
+        sortType = 'title';
+    }
 
     const unsortedLists = await List.find({})
         .populate({
@@ -22,7 +28,7 @@ module.exports.index = async (req, res) => {
     const authorOfLists = listUtils.filterAuthorLists(sortedLists, req.user._id);
     const collaboratorOfLists = listUtils.filterCollaboratorLists(sortedLists, req.user._id);
 
-    res.render('lists/index', { authorOfLists, collaboratorOfLists, tmdb })
+    res.render('lists/index', { availableSortTypes, authorOfLists, collaboratorOfLists, tmdb })
 }
 
 module.exports.renderNewForm = (req, res) => {

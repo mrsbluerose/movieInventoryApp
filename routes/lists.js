@@ -6,9 +6,11 @@ const { isLoggedIn, isListAuthor, isListCollaborator } = require('../middleware'
 
 router.get('/', isLoggedIn, catchAsync(lists.index))
 
+
 router.post('/create', isLoggedIn, catchAsync(lists.createList))
 
 router.get('/new', isLoggedIn, lists.renderNewForm);
+router.post('/sort', isLoggedIn, catchAsync(lists.index))
 
 router.route('/:listId')
     .get(isLoggedIn, catchAsync(lists.showList))
@@ -19,5 +21,7 @@ router.route('/:listId')
 router.post('/:listId/sort', isLoggedIn, catchAsync(lists.sortList))
 
 router.get('/:listId/edit', isLoggedIn, isListAuthor, catchAsync(lists.renderEditForm));
+
+
 
 module.exports = router;

@@ -1,3 +1,5 @@
+const sortUtils = require('./sortUtils');
+
 module.exports.listFilterTypes = ['added by'];
 module.exports.listSortTypes = ['title', 'date added', 'list author'];
 
@@ -29,38 +31,27 @@ module.exports.filterCollaboratorLists = (lists, id) => {
     return collaboratorOfLists;
 }
 
-module.exports.setSortType = (sortType) => {
-
-    let sortTerm = '';
+module.exports.sortList = (listOfLists, sortType) => {
+    let sortTerm;
+    let sortedLists;
     switch (sortType) {
         case 'title':
             sortTerm = 'listTitle';
+            sortedLists = sortUtils.sortAlpha(listOfLists, sortTerm);
             break;
-        case 'author':
-            sortTerm = 'list.listAuthor.username';
+        case 'date added':
+            sortTerm = '';//////
+            sortedLists = sortUtils.sortDate(listOfLists, sortTerm);////
+            break;
+        case 'list author':
+            sortTermOne = 'listAuthor';
+            sortTermTwo = 'username';
+            sortedLists = sortUtils.sortAlpha(listOfLists, sortTermOne, sortTermTwo);
             break;
         default:
-            sortTerm = 'listTitle';
+            console.log('that sort will not work')
             break;
     }
-
-    return sortTerm;
-}
-
-//need to figure out how to sort by dates and not just alphabetize. to uppercase wouldn't make sense.
-module.exports.sortList = (unsortedLists, sortType) => {
-
-    const sortedLists = unsortedLists.sort((a, b) => {
-        if (a[sortType].toUpperCase() < b[sortType].toUpperCase()) {
-            return -1;
-        }
-        if (a[sortType].toUpperCase() > b[sortType].toUpperCase()) {
-            return 1;
-        }
-        return 0;
-
-    });
-
     return sortedLists;
 }
 
