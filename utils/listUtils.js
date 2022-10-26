@@ -1,3 +1,6 @@
+module.exports.listFilterTypes = ['added by'];
+module.exports.listSortTypes = ['title', 'date added', 'list author'];
+
 module.exports.checkAuthor = (list, id) => {
     return list.listAuthor._id.valueOf() === id.valueOf();
 }
