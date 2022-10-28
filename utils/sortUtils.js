@@ -1,4 +1,4 @@
-//accepts a list, a property of that list, and a sub property
+//accepts a list, a property of that list, and a sub property 
 //returns a list sorted alphabetically by the designated property
 module.exports.sortAlpha = (listToBeSorted, sortTypeOne, sortTypeTwo = null) => {
     if (sortTypeTwo) {
@@ -29,18 +29,18 @@ module.exports.sortAlpha = (listToBeSorted, sortTypeOne, sortTypeTwo = null) => 
 
 //accepts a list and a property of that list
 //returns a list sorted numerically by the designated property
-module.exports.sortNum = (listToBeSorted, sortType) => {
+module.exports.sortNum = (listToBeSorted, sortType, name) => {
     const sortedList = listToBeSorted.sort((a, b) => {
-        return a[sortType] - b[sortType]
+        return a[sortType] - b[sortType] || a[name].localeCompare(b[name])
     });
     return sortedList;
 }
 
 //accepts a list and a property of that list
 //returns a list sorted numerically by the indicated date
-module.exports.sortDate = (listToBeSorted, sortType) => {
+module.exports.sortDate = (listToBeSorted, sortType, name) => {
     const sortedList = listToBeSorted.sort((a, b) => {
-        return new Date(a[sortType]) - new Date(b[sortType])
+        return new Date(a[sortType]) - new Date(b[sortType]) || a[name].localeCompare(b[name])
     });
     return sortedList;
 }

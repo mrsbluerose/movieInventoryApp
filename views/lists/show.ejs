@@ -3,7 +3,7 @@
   <div class="mb-3 col-8">
     <h1><%=list.listTitle%></h1>
     <p><%=list.listDescription%></p>
-    <p>Created by <%=list.listAuthor.username%></p>
+    <p>Created by <%=list.listAuthor.username%> on <%=list.listCreatedDate%></p>
     <% if(list.listOfCollaborators.length > 0) {%>
     <div class="d-flex flex-row mb-3">
       Collaborators:

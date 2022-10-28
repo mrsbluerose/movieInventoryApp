@@ -5,6 +5,7 @@ const Movie = require('./movie');
 const ListSchema = new Schema({
     listTitle: String,
     listDescription: String,
+    listCreatedDate: String,
     listAuthor: {
         type: Schema.Types.ObjectId,
         ref: 'User'

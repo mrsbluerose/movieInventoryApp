@@ -12,11 +12,11 @@ module.exports.sortMovies = (listOfMovies, sortType) => {
             break;
         case 'date':
             sortTerm = 'release_date';
-            sortedMovies = sortUtils.sortDate(listOfMovies, sortTerm);
+            sortedMovies = sortUtils.sortDate(listOfMovies, sortTerm, 'title');
             break;
         case 'length':
             sortTerm = 'runtime'
-            sortedMovies = sortUtils.sortNum(listOfMovies, sortTerm);
+            sortedMovies = sortUtils.sortNum(listOfMovies, sortTerm, 'title');
             break;
         case 'added by':
             sortTermOne = 'movieAuthor';
