@@ -4,6 +4,7 @@ const User = require('../models/user');
 const TMDB = require('../api/tmdbConfig');
 const listUtils = require('../utils/listUtils');
 const movieUtils = require('../utils/movieUtils');
+const genUtils = require('../utils/generalUtils');
 //const Movie = require('../models/movie');
 
 module.exports.index = async (req, res) => {
@@ -38,7 +39,7 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.createList = async (req, res, next) => {
     const list = new List(req.body.list);
     list.listAuthor = await User.findById(req.user._id);
-    list.listCreatedDate = listUtils.getDate(),
+    list.listCreatedDate = genUtils.getDate(),
     await list.save();
     req.flash('success', 'Successfully made a new list!');
     res.redirect(`/lists/${list._id}`)

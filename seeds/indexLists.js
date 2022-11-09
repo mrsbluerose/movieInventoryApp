@@ -6,6 +6,7 @@ const Movie = require('../models/movie');
 const User = require('../models/user');
 const List = require('../models/list');
 const listUtils = require('../utils/listUtils');
+const genUtils = require('../utils/generalUtils');
 
 mongoose.connect('mongodb://localhost:27017/movie-lists');
 const db = mongoose.connection;
@@ -29,7 +30,7 @@ const seedDB = async () => {
             listTitle: 'What we own',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
-            listCreatedDate: listUtils.getDate(),
+            listCreatedDate: genUtils.getDate(),
             listOfCollaborators: [],
             listOfMovies: []
         },
@@ -37,7 +38,7 @@ const seedDB = async () => {
             listTitle: 'Bad Movie Night',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
-            listCreatedDate: listUtils.getDate(),
+            listCreatedDate: genUtils.getDate(),
             listOfCollaborators: [],
             listOfMovies: []
         },
@@ -45,7 +46,7 @@ const seedDB = async () => {
             listTitle: 'Show the Kiddo',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
-            listCreatedDate: listUtils.getDate(),
+            listCreatedDate: genUtils.getDate(),
             listOfCollaborators: [],
             listOfMovies: []
         },
@@ -53,7 +54,7 @@ const seedDB = async () => {
             listTitle: 'Chick Flicks',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
-            listCreatedDate: listUtils.getDate(),
+            listCreatedDate: genUtils.getDate(),
             listOfCollaborators: [],
             listOfMovies: []
         },
@@ -61,7 +62,7 @@ const seedDB = async () => {
             listTitle: 'Date Night',
             listDescription: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium ut non accusantium unde magnam omnis reprehenderit animi enim quibusdam quam ipsum tempora neque nulla, id perferendis culpa itaque, quidem minus.',
             listAuthor: user._id,
-            listCreatedDate: listUtils.getDate(),
+            listCreatedDate: genUtils.getDate(),
             listOfCollaborators: [],
             listOfMovies: []
         }
