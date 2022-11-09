@@ -38,6 +38,7 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.createList = async (req, res, next) => {
     const list = new List(req.body.list);
     list.listAuthor = await User.findById(req.user._id);
+    list.listCreatedDate = listUtils.getDate(),
     await list.save();
     req.flash('success', 'Successfully made a new list!');
     res.redirect(`/lists/${list._id}`)

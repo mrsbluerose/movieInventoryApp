@@ -40,8 +40,8 @@ module.exports.sortList = (listOfLists, sortType) => {
             sortedLists = sortUtils.sortAlpha(listOfLists, sortTerm);
             break;
         case 'date added':
-            sortTerm = '';//////
-            sortedLists = sortUtils.sortDate(listOfLists, sortTerm, 'listTitle');////
+            sortTerm = 'listCreatedDate';
+            sortedLists = sortUtils.sortDate(listOfLists, sortTerm, 'listTitle');
             break;
         case 'list author':
             sortTermOne = 'listAuthor';

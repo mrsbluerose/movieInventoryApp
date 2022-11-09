@@ -37,7 +37,7 @@ module.exports.sortNum = (listToBeSorted, sortType, name) => {
 }
 
 //accepts a list and a property of that list
-//returns a list sorted numerically by the indicated date
+//returns a list sorted numerically by the indicated date and then by title
 module.exports.sortDate = (listToBeSorted, sortType, name) => {
     const sortedList = listToBeSorted.sort((a, b) => {
         return new Date(a[sortType]) - new Date(b[sortType]) || a[name].localeCompare(b[name])
