@@ -1,7 +1,8 @@
+const list = require('../models/list');
 const sortUtils = require('./sortUtils');
 
-module.exports.listFilterTypes = ['added by'];
-module.exports.listSortTypes = ['title', 'date added', 'list author'];
+module.exports.listFilterTypes = ['list author'];
+module.exports.listSortTypes = ['title', 'date added'];
 
 module.exports.checkAuthor = (list, id) => {
     return list.listAuthor._id.valueOf() === id.valueOf();
@@ -13,7 +14,7 @@ module.exports.checkCollaborator = (list, id) => {
 
 module.exports.filterAuthorLists = (lists, id) => {
     let authorOfLists = [];
-    for (list of lists) {
+    for (let list of lists) {
         if (this.checkAuthor(list, id)) {
             authorOfLists.push(list);
         }
@@ -23,12 +24,14 @@ module.exports.filterAuthorLists = (lists, id) => {
 
 module.exports.filterCollaboratorLists = (lists, id) => {
     let collaboratorOfLists = [];
-    for (list of lists) {
+    let listAuthors = [];
+    for (let list of lists) {
         if (this.checkCollaborator(list, id)) {
             collaboratorOfLists.push(list);
+            listAuthors.push(list.listAuthor);
         }
     }
-    return collaboratorOfLists;
+    return [collaboratorOfLists, listAuthors];
 }
 
 module.exports.sortList = (listOfLists, sortType) => {

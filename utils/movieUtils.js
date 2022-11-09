@@ -1,6 +1,7 @@
 const sortUtils = require('./sortUtils');
 
 module.exports.movieSortTypes = ['title', 'release date', 'length', 'date added'];
+module.exports.movieFilterTypes = ['added by'];
 
 module.exports.sortMovies = (listOfMovies, sortType) => {
     let sortTerm;

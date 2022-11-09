@@ -10,6 +10,7 @@ const genUtils = require('../utils/generalUtils');
 module.exports.index = async (req, res) => {
     const tmdb = new TMDB();
     const availableSortTypes = listUtils.listSortTypes;
+    const availableFilterTypes = listUtils.listFilterTypes;
     let sortType;
     if (req.body.sortType) {
         sortType = req.body.sortType;
@@ -28,8 +29,11 @@ module.exports.index = async (req, res) => {
     const sortedLists = listUtils.sortList(unsortedLists, sortType);
     const authorOfLists = listUtils.filterAuthorLists(sortedLists, req.user._id);
     const collaboratorOfLists = listUtils.filterCollaboratorLists(sortedLists, req.user._id);
+    const collaboratingLists = collaboratorOfLists[0];
+    const allListAuthors = collaboratorOfLists[1];
 
-    res.render('lists/index', { availableSortTypes, authorOfLists, collaboratorOfLists, tmdb })
+
+    res.render('lists/index', { availableSortTypes, availableFilterTypes, authorOfLists, collaboratingLists, allListAuthors, tmdb })
 }
 
 module.exports.renderNewForm = (req, res) => {
@@ -48,6 +52,7 @@ module.exports.createList = async (req, res, next) => {
 module.exports.showList = async (req, res) => {
     const tmdb = new TMDB();
     const availableSortTypes = movieUtils.movieSortTypes;
+    //const availableFilterTypes = movieUtils.movieFilterTypes;
     let sortType;
     if (req.body.sortType) {
         sortType = req.body.sortType;
@@ -76,7 +81,7 @@ module.exports.showList = async (req, res) => {
     const users = await User.find({});
     let isAuthor = listUtils.checkAuthor(list, req.user._id);
     let isCollaborator = listUtils.checkCollaborator(list, req.user._id);
-    res.render('lists/show', { list, tmdb, users, isAuthor, isCollaborator, availableSortTypes });
+    res.render('lists/show', { list, tmdb, users, isAuthor, isCollaborator, availableSortTypes, availableFilterTypes });
 }
 
 

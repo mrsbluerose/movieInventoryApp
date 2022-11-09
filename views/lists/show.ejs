@@ -65,25 +65,32 @@
   </div>
 </div>
 
-<div class="row d-flex justify-content-end">
-  <form class="d-flex flex-row" action="/lists/<%= list._id %>" method="POST">
-    <select name="sortType" class="form-select" aria-label="types of sort">
-      <option disabled selected value> -- select an option -- </option>
-      <% for(let sortType of availableSortTypes) { %>
-      <option value="<%= sortType %>"><%= sortType %></option>
-      <% } %>
-    </select>
-    <button type="submit" class="btn btn-outline-secondary px-4">Sort</button>
-  </form>
-  <form class="d-flex flex-row" action="/lists/<%= list._id %>" method="POST">
-    <select name="filterType" class="form-select" aria-label="types of filters">
-      <option disabled selected value> -- select an option -- </option>
-      <% for(let filterType of availableFilterTypes) { %>
-      <option value="<%= filterType %>"><%= filterType %></option>
-      <% } %>
-    </select>
-    <button type="submit" class="btn btn-outline-secondary px-4">Filter</button>
-  </form>
+<div class="row d-flex p-2 mb-3 bg-secondary justify-content-end">
+  <div class="col-4">
+    <form class="d-flex flex-row gap-1" action="/lists/<%= list._id %>" method="POST">
+      <select name="filterAuthor" class="form-select" aria-label="available list authors">
+        <option disabled selected value> select author </option>
+        <% for(let author of availableAuthors) { %>
+        <option value="<%= list.listAuthor %>"><%= list.listAuthor.username %></option>
+        <% } %>
+      </select>
+      <button type="submit" class="btn bg-light px-4">Filter</button>
+    </form>
+  </div>
+
+  <div class="col-4">
+    <form class="d-flex flex-row gap-1" action="/lists/<%= list._id %>" method="POST">
+      <select name="sortType" class="form-select" aria-label="types of sort">
+        <option disabled selected value> select an option  </option>
+        <% for(let sortType of availableSortTypes) { %>
+        <option value="<%= sortType %>"><%= sortType %></option>
+        <% } %>
+      </select>
+      <button type="submit" class="btn bg-light px-4">Sort</button>
+    </form>
+  </div>
+
+
 </div>
 
 <% if(list.listOfMovies.length > 0) { %>

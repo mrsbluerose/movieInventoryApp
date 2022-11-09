@@ -4,15 +4,21 @@
   <div class="col-6">
     <h1>My Lists</h1>
 
-    <form class="d-flex flex-row" action="/lists/sort" method="POST">
-      <select name="sortType" class="form-select" aria-label="types of sort">
-        <option disabled selected value> -- select an option -- </option>
-        <% for(let sortType of availableSortTypes) { %>
-        <option value="<%= sortType %>"><%= sortType %></option>
-        <% } %>
-      </select>
-      <button type="submit" class="btn btn-outline-secondary px-4">SORT</button>
-    </form>
+
+    <div class="row d-flex p-2 mb-3 bg-secondary justify-content-end">
+      <div class="col-6">
+        <form class="d-flex flex-row gap-1" action="/lists/sort" method="POST">
+          <select name="sortType" class="form-select" aria-label="types of sort">
+            <option disabled selected value> select an option  </option>
+            <% for(let sortType of availableSortTypes) { %>
+            <option value="<%= sortType %>"><%= sortType %></option>
+            <% } %>
+          </select>
+          <button type="submit" class="btn bg-light px-4">Sort</button>
+        </form>
+      </div>
+    </div>
+
 
     <% for (let list of authorOfLists) {%>
     <div class="card mb-3">
@@ -42,7 +48,7 @@
   </div>
   <div class="col-6">
     <h1>Collaborating Lists</h1>
-    <% for (let list of collaboratorOfLists) {%>
+    <% for (let list of collaboratingLists) {%>
     <div class="card mb-3">
       <div class="row g-0">
         <div class="card-body">
