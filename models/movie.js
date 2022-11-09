@@ -50,6 +50,7 @@ const MovieSchema = new Schema({
   video: Boolean,
   vote_average: Number,
   vote_count: Number,
+  movieAddedDate: String,
   movieAuthor: {
     type: Schema.Types.ObjectId,
     ref: 'User'

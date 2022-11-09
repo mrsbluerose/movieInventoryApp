@@ -3,6 +3,7 @@ const List = require('../models/list');
 const TMDB = require('../api/tmdbConfig');
 const axios = require('axios');
 const user = require('../models/user');
+const genUtils = require('../utils/generalUtils');
 
 module.exports.searchMovie = async (req, res) => {
     const tmdb = new TMDB();
@@ -28,6 +29,7 @@ module.exports.addMovie = async (req, res) => {
         const movieSearch = await axios.get(url);
         const newMovie = new Movie(movieSearch.data);
         newMovie.movieAuthor = req.user._id;
+        newMovie.movieAddedDate = genUtils.getDate();
         list.listOfMovies.push(newMovie);
         await newMovie.save();
         await list.save();

@@ -84,7 +84,7 @@
           <div class="d-flex mt-auto">
             <div class="card-text px-2">Released: <%= movie.release_date %></div>
             <div class="card-text px-2">Length: <%= movie.runtime %> minutes</div>
-            <div class="card-text ms-auto"><small class="text-muted">Submitted by <%= movie.movieAuthor.username %></small></div>
+            <div class="card-text ms-auto"><small class="text-muted">Submitted by <%= movie.movieAuthor.username %> on <%= movie.movieAddedDate %></small></div>
           </div>
         </div>
         <% if (isAuthor || isCollaborator) { %>
