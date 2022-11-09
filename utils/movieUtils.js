@@ -1,6 +1,6 @@
 const sortUtils = require('./sortUtils');
 
-module.exports.movieSortTypes = ['title', 'date', 'length', 'added by'];
+module.exports.movieSortTypes = ['title', 'release date', 'length', 'date added'];
 
 module.exports.sortMovies = (listOfMovies, sortType) => {
     let sortTerm;
@@ -10,7 +10,7 @@ module.exports.sortMovies = (listOfMovies, sortType) => {
             sortTerm = 'title';
             sortedMovies = sortUtils.sortAlpha(listOfMovies, sortTerm);
             break;
-        case 'date':
+        case 'release date':
             sortTerm = 'release_date';
             sortedMovies = sortUtils.sortDate(listOfMovies, sortTerm, 'title');
             break;
@@ -18,10 +18,9 @@ module.exports.sortMovies = (listOfMovies, sortType) => {
             sortTerm = 'runtime'
             sortedMovies = sortUtils.sortNum(listOfMovies, sortTerm, 'title');
             break;
-        case 'added by':
-            sortTermOne = 'movieAuthor';
-            sortTermTwo = 'username';
-            sortedMovies = sortUtils.sortAlpha(listOfMovies, sortTermOne, sortTermTwo);
+        case 'date added':
+            sortTerm = 'movieAddedDate';
+            sortedMovies = sortUtils.sortDate(listOfMovies, sortTerm, 'title');
             break;
         default:
             console.log('that sort will not work')
