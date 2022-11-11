@@ -52,7 +52,7 @@ module.exports.createList = async (req, res, next) => {
 module.exports.showList = async (req, res) => {
     const tmdb = new TMDB();
     const availableSortTypes = movieUtils.movieSortTypes;
-    //const availableFilterTypes = movieUtils.movieFilterTypes;
+    const availableFilterTypes = listUtils.listFilterTypes;
     let sortType;
     if (req.body.sortType) {
         sortType = req.body.sortType;
