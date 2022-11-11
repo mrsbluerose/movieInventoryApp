@@ -8,7 +8,7 @@
     <div class="row d-flex p-2 mb-3 bg-secondary justify-content-end">
       <div class="col-6">
         <form class="d-flex flex-row gap-1" action="/lists/sort" method="POST">
-          <select name="sortType" class="form-select" aria-label="types of sort">
+          <select name="sortTypeAuthorLists" class="form-select" aria-label="types of sort">
             <option disabled selected value> select an option  </option>
             <% for(let sortType of availableSortTypes) { %>
             <option value="<%= sortType %>"><%= sortType %></option>
@@ -20,7 +20,7 @@
     </div>
 
 
-    <% for (let list of authorOfLists) {%>
+    <% for (let list of sortedAuthorLists) {%>
     <div class="card mb-3">
       <div class="row g-0">
         <div class="card-body">
@@ -48,7 +48,22 @@
   </div>
   <div class="col-6">
     <h1>Collaborating Lists</h1>
-    <% for (let list of collaboratingLists) {%>
+
+    <div class="row d-flex p-2 mb-3 bg-secondary justify-content-end">
+      <div class="col-6">
+        <form class="d-flex flex-row gap-1" action="/lists/sort" method="POST">
+          <select name="sortTypeColaboratorLists" class="form-select" aria-label="types of sort">
+            <option disabled selected value> select an option  </option>
+            <% for(let sortType of availableSortTypes) { %>
+            <option value="<%= sortType %>"><%= sortType %></option>
+            <% } %>
+          </select>
+          <button type="submit" class="btn bg-light px-4">Sort</button>
+        </form>
+      </div>
+    </div>
+
+    <% for (let list of sortedColaboratorLists) {%>
     <div class="card mb-3">
       <div class="row g-0">
         <div class="card-body">
@@ -56,7 +71,7 @@
             <h5 class="card-title"><%= list.listTitle %></h5>
           </a>
           <p class="card-text"><%= list.listDescription %></p>
-          <p class="card-text"><small class="text-muted">Created by <%= list.listAuthor.username %></small></p>
+          <p class="card-text"><small class="text-muted">Created by <%= list.listAuthor.username %> on <%=list.listCreatedDate%></small></p>
         </div>
       </div>
       <% if(list.listOfMovies.length > 0) { %>

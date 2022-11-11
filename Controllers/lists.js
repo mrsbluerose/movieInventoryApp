@@ -11,12 +11,6 @@ module.exports.index = async (req, res) => {
     const tmdb = new TMDB();
     const availableSortTypes = listUtils.listSortTypes;
     const availableFilterTypes = listUtils.listFilterTypes;
-    let sortType;
-    if (req.body.sortType) {
-        sortType = req.body.sortType;
-    } else {
-        sortType = 'title';
-    }
 
     const unsortedLists = await List.find({})
         .populate({
@@ -26,14 +20,30 @@ module.exports.index = async (req, res) => {
             }
         }).populate('listAuthor');
 
-    const sortedLists = listUtils.sortList(unsortedLists, sortType);
-    const authorOfLists = listUtils.filterAuthorLists(sortedLists, req.user._id);
-    const collaboratorOfLists = listUtils.filterCollaboratorLists(sortedLists, req.user._id);
+    //Filter into two lists: author or, collaborating on
+    const authorOfLists = listUtils.filterAuthorLists(unsortedLists, req.user._id);
+    const collaboratorOfLists = listUtils.filterCollaboratorLists(unsortedLists, req.user._id);
     const collaboratingLists = collaboratorOfLists[0];
-    const allListAuthors = collaboratorOfLists[1];
+    const collaboratingListAuthors = collaboratorOfLists[1];
 
+    //Sort lists according to chose options
+    let sortTypeAuthorLists;
+    let sortTypeColaboratorLists;
+    if (req.body.sortTypeAuthorLists) {
+        sortTypeAuthorLists = req.body.sortTypeAuthorLists;
+    } else {
+        sortTypeAuthorLists = 'title';
+    }
+    if (req.body.sortTypeColaboratorLists) {
+        sortTypeColaboratorLists = req.body.sortTypeColaboratorLists;
+    } else {
+        sortTypeColaboratorLists = 'title';
+    }
+    const sortedAuthorLists = listUtils.sortList(authorOfLists, sortTypeAuthorLists);
+    const sortedColaboratorLists = listUtils.sortList(collaboratingLists, sortTypeColaboratorLists);
+    //const sortedLists = listUtils.sortList(unsortedLists, sortType);
 
-    res.render('lists/index', { availableSortTypes, availableFilterTypes, authorOfLists, collaboratingLists, allListAuthors, tmdb })
+    res.render('lists/index', { availableSortTypes, availableFilterTypes, sortedAuthorLists, sortedColaboratorLists, collaboratingListAuthors, tmdb })
 }
 
 module.exports.renderNewForm = (req, res) => {
@@ -44,7 +54,7 @@ module.exports.createList = async (req, res, next) => {
     const list = new List(req.body.list);
     list.listAuthor = await User.findById(req.user._id);
     list.listCreatedDate = genUtils.getDate(),
-    await list.save();
+        await list.save();
     req.flash('success', 'Successfully made a new list!');
     res.redirect(`/lists/${list._id}`)
 }
@@ -53,12 +63,8 @@ module.exports.showList = async (req, res) => {
     const tmdb = new TMDB();
     const availableSortTypes = movieUtils.movieSortTypes;
     const availableFilterTypes = listUtils.listFilterTypes;
-    let sortType;
-    if (req.body.sortType) {
-        sortType = req.body.sortType;
-    } else {
-        sortType = 'title';
-    }
+
+    //Get movies in list
     const { listId } = req.params;
     const list = await List.findById(listId).populate({
         path: 'listOfMovies',
@@ -76,12 +82,32 @@ module.exports.showList = async (req, res) => {
         req.flash('error', 'Cannot find that list!');
         return res.redirect('/lists');
     }
-    const sortedListOfMovies = movieUtils.sortMovies(list.listOfMovies, sortType);
-    list.listOfMovies = sortedListOfMovies;
+
+    //Determine sorting of movies
+    let sortType;
+    if (req.body.sortType) {
+        sortType = req.body.sortType;
+    } else {
+        sortType = 'title';
+    }
+
+    //Filter movies
+    let filteredListOfMovies;
+    let sortedListOfMovies;
+    if (req.body.filterByAuthor) {
+        console.log('from list controller show filter movies by author');
+        filteredListOfMovies = movieUtils.filterMoviesByAuthor(list.listOfMovies, req.body.filterByAuthor);
+        sortedListOfMovies = movieUtils.sortMovies(filteredListOfMovies, sortType);
+    } else {
+        sortedListOfMovies = movieUtils.sortMovies(list.listOfMovies, sortType);
+    }
+
+    //list.listOfMovies = sortedListOfMovies;
     const users = await User.find({});
     let isAuthor = listUtils.checkAuthor(list, req.user._id);
     let isCollaborator = listUtils.checkCollaborator(list, req.user._id);
-    res.render('lists/show', { list, tmdb, users, isAuthor, isCollaborator, availableSortTypes, availableFilterTypes });
+
+    res.render('lists/show', { list, sortedListOfMovies, tmdb, users, isAuthor, isCollaborator, availableSortTypes, availableFilterTypes });
 }
 
 

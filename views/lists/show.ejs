@@ -68,10 +68,10 @@
 <div class="row d-flex p-2 mb-3 bg-secondary justify-content-end">
   <div class="col-4">
     <form class="d-flex flex-row gap-1" action="/lists/<%= list._id %>" method="POST">
-      <select name="filterAuthor" class="form-select" aria-label="available list authors">
+      <select name="filterByAuthor" class="form-select" aria-label="available list authors">
         <option disabled selected value> select author </option>
-        <% for(let author of availableAuthors) { %>
-        <option value="<%= list.listAuthor %>"><%= list.listAuthor.username %></option>
+        <% for(let author of list.listOfCollaborators) { %>
+        <option value="<%= author.id %>"><%= author.username %></option>
         <% } %>
       </select>
       <button type="submit" class="btn bg-light px-4">Filter</button>
@@ -94,7 +94,7 @@
 </div>
 
 <% if(list.listOfMovies.length > 0) { %>
-<% for(let movie of list.listOfMovies) { %>
+<% for(let movie of sortedListOfMovies) { %>
 <div class="row">
   <div class="card mb-3">
     <div class="row g-0">
