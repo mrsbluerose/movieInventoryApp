@@ -11,12 +11,13 @@
             <%=list.listCreatedDate%></small>
         </div>
         <div class="card-text d-flex">Collaborators:
-          <% for(collaborator of list.listOfCollaborators) { %>
+          <% for( let collaborator of list.listOfCollaborators) { %>
           <div class="mx-2">
             <%= collaborator.username %>
           </div>
+          <% } %>
         </div>
-        <% } %>
+        
 
         <% } %>
       </div>
@@ -81,7 +82,7 @@
   <div class="col-4">
     <form class="d-flex flex-row gap-1" action="/lists/<%= list._id %>" method="POST">
       <select name="sortType" class="form-select" aria-label="types of sort">
-        <option disabled selected value> select an option  </option>
+        <option disabled selected value> select an option </option>
         <% for(let sortType of availableSortTypes) { %>
         <option value="<%= sortType %>"><%= sortType %></option>
         <% } %>
