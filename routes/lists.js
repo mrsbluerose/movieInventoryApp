@@ -6,7 +6,6 @@ const { isLoggedIn, isListAuthor, isListCollaborator } = require('../middleware'
 
 router.get('/', isLoggedIn, catchAsync(lists.index))
 
-
 router.post('/create', isLoggedIn, catchAsync(lists.createList))
 
 router.get('/new', isLoggedIn, lists.renderNewForm);
@@ -17,8 +16,6 @@ router.route('/:listId')
     .post(isLoggedIn, catchAsync(lists.showList))
     .put(isLoggedIn, isListAuthor, catchAsync(lists.updateList))
     .delete(isLoggedIn, isListAuthor, (lists.deleteList))
-
-//router.post('/:listId/sort', isLoggedIn, catchAsync(lists.sortList))
 
 router.get('/:listId/edit', isLoggedIn, isListAuthor, catchAsync(lists.renderEditForm));
 

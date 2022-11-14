@@ -1,11 +1,9 @@
-const { register } = require('../models/list');
 const List = require('../models/list');
 const User = require('../models/user');
 const TMDB = require('../api/tmdbConfig');
 const listUtils = require('../utils/listUtils');
 const movieUtils = require('../utils/movieUtils');
 const genUtils = require('../utils/generalUtils');
-//const Movie = require('../models/movie');
 
 module.exports.index = async (req, res) => {
     const tmdb = new TMDB();
@@ -41,7 +39,6 @@ module.exports.index = async (req, res) => {
     }
     const sortedAuthorLists = listUtils.sortList(authorOfLists, sortTypeAuthorLists);
     const sortedColaboratorLists = listUtils.sortList(collaboratingLists, sortTypeColaboratorLists);
-    //const sortedLists = listUtils.sortList(unsortedLists, sortType);
 
     res.render('lists/index', { availableSortTypes, availableFilterTypes, sortedAuthorLists, sortedColaboratorLists, collaboratingListAuthors, tmdb })
 }
@@ -68,7 +65,6 @@ module.exports.showList = async (req, res) => {
     const { listId } = req.params;
     const list = await List.findById(listId).populate({
         path: 'listOfMovies',
-        //options: { sort: { 'title': -1 }}, //not working. need to reference key value in movie object in array of movies
         populate: {
             path: 'movieAuthor'
         }
@@ -109,8 +105,7 @@ module.exports.showList = async (req, res) => {
     res.render('lists/show', { list, sortedListOfMovies, tmdb, users, isAuthor, isCollaborator, availableSortTypes, availableFilterTypes });
 }
 
-
-
+//display edit form with current info populated in fields
 module.exports.renderEditForm = async (req, res) => {
     const { listId } = req.params;
     const list = await List.findById(listId)
@@ -121,6 +116,7 @@ module.exports.renderEditForm = async (req, res) => {
     res.render('lists/edit', { list });
 }
 
+//update document with entered information
 module.exports.updateList = async (req, res) => {
     const { listId } = req.params;
     const list = await List.findByIdAndUpdate(listId, { ...req.body.list });
@@ -128,6 +124,7 @@ module.exports.updateList = async (req, res) => {
     res.redirect(`/lists/${list._id}`)
 }
 
+//delete the list. List model includes method to delete all movies associated with that list
 module.exports.deleteList = async (req, res) => {
     const { listId } = req.params;
     await List.findByIdAndDelete(listId);

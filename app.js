@@ -21,7 +21,6 @@ const User = require('./models/user');
 const userRoutes = require('./routes/users');
 const listRoutes = require('./routes/lists');
 const movieRoutes = require('./routes/movies');
-//const personalReviewRoutes = require('./routes/personalReviews');
 
 mongoose.connect('mongodb://localhost:27017/movie-lists');
 const db = mongoose.connection;
@@ -38,8 +37,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-//app.use('/static', express.static(path.join(__dirname, 'public'))); ////validation works, but 404 says it can load script
-app.use(express.static(path.join(__dirname, 'public'))); ////no errors, but validation doesn't do anything. trying to add a move without a title, and nothing happens
+app.use(express.static(path.join(__dirname, 'public')));
 
 const sessionConfig = {
     //store,
@@ -72,12 +70,9 @@ app.use((req, res, next) => {
     next();
 })
 
-//app.use('/movies', movieRoutes);
-//app.use('/movies/:id/personalReviews', personalReviewRoutes);
 app.use('/', userRoutes);
 app.use('/lists', listRoutes);
-app.use('/lists/:listId/movies', movieRoutes); //this appears to route 
-//app.use('/', userRoutes);
+app.use('/lists/:listId/movies', movieRoutes); 
 
 
 app.get('/', (req, res) => {
