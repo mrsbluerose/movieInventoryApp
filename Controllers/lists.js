@@ -95,7 +95,6 @@ module.exports.showList = async (req, res) => {
     let filteredListOfMovies;
     let sortedListOfMovies;
     if (req.body.filterByAuthor) {
-        console.log('from list controller show filter movies by author');
         filteredListOfMovies = movieUtils.filterMoviesByAuthor(list.listOfMovies, req.body.filterByAuthor);
         sortedListOfMovies = movieUtils.sortMovies(filteredListOfMovies, sortType);
     } else {

@@ -4,15 +4,13 @@ module.exports.movieSortTypes = ['title', 'release date', 'length', 'date added'
 module.exports.movieFilterTypes = ['added by'];
 
 module.exports.filterMoviesByAuthor = (list, userId) => {
-    console.log('from movie utils filter movies by author');
         let movieList = [];
         for (let movie of list) {
             if (movie.movieAuthor.id === userId) {
-                console.log('from movie utils filter movies by author of ids are equal');
                 movieList.push(movie);
             }
         }
-        return [movieList];
+        return movieList;
     }
 
 module.exports.sortMovies = (listOfMovies, sortType) => {
