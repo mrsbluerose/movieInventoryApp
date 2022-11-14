@@ -9,13 +9,13 @@ module.exports.searchMovie = async (req, res) => {
     const tmdb = new TMDB();
     const searchTitle = req.body.searchTitle;
     const { listId } = req.params;
-    const list = await List.findById(listId);
-    const listTitle = list.listTitle;
+    const list = await List.findById(listId).populate('listOfMovies');
+    //const listTitle = list.listTitle;
     const searchTerm = searchTitle.replace(/ /g, '%');
     let url = `${tmdb.baseURL}/search/movie?api_key=${tmdb.api_key}&query=${searchTerm}&include_adult=false`;
     const movieSearch = await axios.get(url);
     const movieList = (movieSearch.data.results);
-    res.render(`movies/search`, { movieList, listId, listTitle, searchTitle, tmdb });
+    res.render(`movies/search`, { movieList, /*listId, listTitle,*/ list, searchTitle, tmdb }); //<%=listId%> <%= listTitle %>
 }
 
 module.exports.addMovie = async (req, res) => {

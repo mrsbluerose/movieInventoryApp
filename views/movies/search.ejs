@@ -1,13 +1,12 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="mb-3">
-    <a href="/lists/<%=listId%>" class="card-link btn btn-danger">Cancel</a>
-    <form action="/lists/<%=listId%>/movies?_method=PUT" method="POST">
+    <a href="/lists/<%=list.id%>" class="card-link btn btn-danger">Cancel</a>
+    <form action="/lists/<%=list.id%>/movies?_method=PUT" method="POST">
         <% if(movieList && movieList.length > 0) { %>
         <h1>Search results for "<%= searchTitle %>" </h1>
-        <p>Select movies to add to the <%= listTitle %> list and hit "submit" at the bottom of the page.
-        <p>
-            <% for(let movie of movieList) { %>
+        <p>Select movies to add to the <%= list.listTitle %> list and hit "submit" at the bottom of the page.</p>
+        <% for(let movie of movieList) { %>
 
         <div class="card mb-3">
             <div class="row g-0">
@@ -34,9 +33,14 @@
 
                     <div class="card-footer mt-auto d-flex flex-column">
                         <div class="align-self-end">
+                            <%if (list.listOfMovies.some(e => e.id.valueOf() === movie.id.valueOf())) { %>
+                            Already in list: <%= list.listTitle %>
+                            <%} else { %>
                             <input class="form-check-input" type="checkbox" name="movieId[]" value="<%= movie.id %>"
                                 id="addMovieCheckbox">
                             <label class="form-check-label" for="addMovieCheckBox">Add Movie</label>
+                            <% } %>
+
                         </div>
                     </div>
                 </div>
